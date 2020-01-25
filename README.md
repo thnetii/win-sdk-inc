@@ -1,6 +1,6 @@
 # Windows SDK Header files
 
-## Windows 10 SDK, version `10.0.17134.0`
+## Windows 10 SDK, version `10.0.18362.0`
 
 ### WinRT excluded
 

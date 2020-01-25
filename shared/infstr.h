@@ -70,7 +70,12 @@
 #define SZ_KEY_ADDPROP          TEXT("AddProperty")
 #define SZ_KEY_DELPROP          TEXT("DelProperty")
 #define SZ_KEY_FEATURESCORE     TEXT("FeatureScore")
-
+#define SZ_KEY_ADDEVENTPROVIDER TEXT("AddEventProvider")
+#define SZ_KEY_ADDCHANNEL       TEXT("AddChannel")
+#define SZ_KEY_IMPORTCHANNEL    TEXT("ImportChannel")
+#define SZ_KEY_ADDFILTER        TEXT("AddFilter")
+#define SZ_KEY_FILTERLEVEL      TEXT("FilterLevel")
+#define SZ_KEY_FILTERPOSITION   TEXT("FilterPosition")
 
 // These are here for compatability with SetupX
 // They are registry keys, and are not used by SetupAPI
@@ -135,6 +140,7 @@
 // Used to install a primitive INF
 //
 #define INFSTR_SECT_DEFAULT_INSTALL     TEXT("DefaultInstall")
+#define INFSTR_SECT_DEFAULT_UNINSTALL   TEXT("DefaultUninstall")
 
 //
 //  Used to install an interface class
@@ -170,6 +176,8 @@
 #define INFSTR_SECT_MFG                 TEXT("Manufacturer")
 
 #define INFSTR_SECT_TARGETCOMPUTERS     TEXT("TargetComputers")
+
+#define INFSTR_SECT_EXTENSIONCONTRACTS  TEXT("ExtensionContracts")
 
 //
 //  Specifies the hardware class of this device.
@@ -207,6 +215,29 @@
 #define INFSTR_KEY_ACTION               TEXT("Action")
 #define INFSTR_KEY_SUB_TYPE             TEXT("SubType")
 #define INFSTR_KEY_DATA_ITEM            TEXT("DataItem")
+
+//
+// Used in event provider section
+//
+#define INFSTR_KEY_PROVIDER_NAME        TEXT("ProviderName")
+#define INFSTR_KEY_RESOURCE_FILE        TEXT("ResourceFile")
+#define INFSTR_KEY_MESSAGE_FILE         TEXT("MessageFile")
+#define INFSTR_KEY_PARAMETER_FILE       TEXT("ParameterFile")
+
+//
+// Used for channel attributes in event channel section
+//
+#define INFSTR_KEY_CHANNEL_ACCESS       TEXT("Access")
+#define INFSTR_KEY_CHANNEL_ISOLATION    TEXT("Isolation")
+#define INFSTR_KEY_CHANNEL_ENABLED      TEXT("Enabled")
+#define INFSTR_KEY_CHANNEL_VALUE        TEXT("Value")
+
+//
+// Used for logging attributes in event channel section
+//
+#define INFSTR_KEY_LOGGING_MAXSIZE      TEXT("LoggingMaxSize")
+#define INFSTR_KEY_LOGGING_RETENTION    TEXT("LoggingRetention")
+#define INFSTR_KEY_LOGGING_AUTOBACKUP   TEXT("LoggingAutoBackup")
 
 // The following are the characters to parse IORange and MemRange fields.
 #define CH_SIZE_DELIM                   TEXT('@')
@@ -262,6 +293,8 @@
 #define INFSTR_SUBKEY_COINSTALLERS      TEXT("CoInstallers")
 #define INFSTR_SUBKEY_LOGCONFIGOVERRIDE TEXT("LogConfigOverride")
 #define INFSTR_SUBKEY_WMI               TEXT("WMI")
+#define INFSTR_SUBKEY_EVENTS            TEXT("Events")
+#define INFSTR_SUBKEY_FILTERS           TEXT("Filters")
 
 // Control Section
 #define INFSTR_CONTROLFLAGS_SECTION         TEXT("ControlFlags")

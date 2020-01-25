@@ -82,25 +82,38 @@ typedef LPMENUTEMPLATEW LPMENUTEMPLATE;
 typedef LPMENUTEMPLATEA LPMENUTEMPLATE;
 #endif // UNICODE
 
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
+#pragma endregion
+
+#pragma region Desktop Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
+
 typedef LRESULT (CALLBACK* WNDPROC)(HWND, UINT, WPARAM, LPARAM);
 
-#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES) */
 #pragma endregion
 
 #ifdef STRICT
 
 #pragma region Application Family or OneCore Family
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_SYSTEM)
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_SYSTEM | WINAPI_PARTITION_GAMES)
 
 typedef INT_PTR (CALLBACK* DLGPROC)(HWND, UINT, WPARAM, LPARAM);
 
-#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_SYSTEM) */
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_SYSTEM | WINAPI_PARTITION_GAMES) */
+#pragma endregion
+
+#pragma region Desktop Family or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
+
+typedef VOID (CALLBACK* TIMERPROC)(HWND, UINT, UINT_PTR, DWORD);
+
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES) */
 #pragma endregion
 
 #pragma region Desktop Family
 #if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 
-typedef VOID (CALLBACK* TIMERPROC)(HWND, UINT, UINT_PTR, DWORD);
 typedef BOOL (CALLBACK* GRAYSTRINGPROC)(HDC, LPARAM, int);
 typedef BOOL (CALLBACK* WNDENUMPROC)(HWND, LPARAM);
 typedef LRESULT (CALLBACK* HOOKPROC)(int code, WPARAM wParam, LPARAM lParam);
@@ -133,10 +146,17 @@ typedef FARPROC DLGPROC;
 #endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_SYSTEM) */
 #pragma endregion
 
+#pragma region Desktop Family or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
+
+typedef FARPROC TIMERPROC;
+
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES) */
+#pragma endregion
+
 #pragma region Desktop Family
 #if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 
-typedef FARPROC TIMERPROC;
 typedef FARPROC GRAYSTRINGPROC;
 typedef FARPROC WNDENUMPROC;
 typedef FARPROC HOOKPROC;
@@ -254,6 +274,8 @@ typedef DESKTOPENUMPROCA    DESKTOPENUMPROC;
 #define CREATEPROCESS_MANIFEST_RESOURCE_ID  1
 #define ISOLATIONAWARE_MANIFEST_RESOURCE_ID 2
 #define ISOLATIONAWARE_NOSTATICIMPORT_MANIFEST_RESOURCE_ID 3
+#define ISOLATIONPOLICY_MANIFEST_RESOURCE_ID 4
+#define ISOLATIONPOLICY_BROWSER_MANIFEST_RESOURCE_ID 5
 #define MINIMUM_RESERVED_MANIFEST_RESOURCE_ID 1   /* inclusive */
 #define MAXIMUM_RESERVED_MANIFEST_RESOURCE_ID 16  /* inclusive */
 #else  /* RC_INVOKED */
@@ -261,6 +283,8 @@ typedef DESKTOPENUMPROCA    DESKTOPENUMPROC;
 #define CREATEPROCESS_MANIFEST_RESOURCE_ID MAKEINTRESOURCE( 1)
 #define ISOLATIONAWARE_MANIFEST_RESOURCE_ID MAKEINTRESOURCE(2)
 #define ISOLATIONAWARE_NOSTATICIMPORT_MANIFEST_RESOURCE_ID MAKEINTRESOURCE(3)
+#define ISOLATIONPOLICY_MANIFEST_RESOURCE_ID MAKEINTRESOURCE(4)
+#define ISOLATIONPOLICY_BROWSER_MANIFEST_RESOURCE_ID MAKEINTRESOURCE(5)
 #define MINIMUM_RESERVED_MANIFEST_RESOURCE_ID MAKEINTRESOURCE( 1 /*inclusive*/)
 #define MAXIMUM_RESERVED_MANIFEST_RESOURCE_ID MAKEINTRESOURCE(16 /*inclusive*/)
 #endif /* RC_INVOKED */
@@ -1734,8 +1758,8 @@ SetUserObjectInformationW(
 
 #endif  /* !NOSECURITY */
 
-#pragma region Desktop Family
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+#pragma region Desktop or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
 
 #if(WINVER >= 0x0400)
 typedef struct tagWNDCLASSEXA {
@@ -1819,6 +1843,12 @@ typedef NPWNDCLASSA NPWNDCLASS;
 typedef LPWNDCLASSA LPWNDCLASS;
 #endif // UNICODE
 
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES) */
+#pragma endregion
+
+#pragma region Desktop Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+
 WINUSERAPI
 BOOL
 WINAPI
@@ -1840,8 +1870,8 @@ DisableProcessWindowsGhosting(
 
 #ifndef NOMSG
 
-#pragma region Application Family or OneCore Family
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_SYSTEM)
+#pragma region Application Family or OneCore Family or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_SYSTEM | WINAPI_PARTITION_GAMES)
 
 /*
  * Message structure
@@ -1858,7 +1888,7 @@ typedef struct tagMSG {
 #endif
 } MSG, *PMSG, NEAR *NPMSG, FAR *LPMSG;
 
-#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_SYSTEM) */
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_SYSTEM | WINAPI_PARTITION_GAMES) */
 #pragma endregion
 
 #define POINTSTOPOINT(pt, pts)                          \
@@ -3159,6 +3189,12 @@ typedef struct tagPAINTSTRUCT {
     BYTE        rgbReserved[32];
 } PAINTSTRUCT, *PPAINTSTRUCT, *NPPAINTSTRUCT, *LPPAINTSTRUCT;
 
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
+#pragma endregion
+
+#pragma region Desktop Family or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
+
 typedef struct tagCREATESTRUCTA {
     LPVOID      lpCreateParams;
     HINSTANCE   hInstance;
@@ -3194,6 +3230,12 @@ typedef LPCREATESTRUCTW LPCREATESTRUCT;
 typedef CREATESTRUCTA CREATESTRUCT;
 typedef LPCREATESTRUCTA LPCREATESTRUCT;
 #endif // UNICODE
+
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES) */
+#pragma endregion
+
+#pragma region Desktop Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 
 typedef struct tagWINDOWPLACEMENT {
     UINT  length;
@@ -3347,8 +3389,8 @@ typedef struct tagCOMPAREITEMSTRUCT {
 
 #ifndef NOMSG
 
-#pragma region Desktop Family
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+#pragma region Desktop Family or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
 
 /*
  * Message Function Templates
@@ -3441,11 +3483,23 @@ DispatchMessage(
 }
 #endif  /* _M_CEE */
 
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES) */
+#pragma endregion
+
+#pragma region Desktop Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+
 WINUSERAPI
 BOOL
 WINAPI
 SetMessageQueue(
     _In_ int cMessagesMax);
+
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
+#pragma endregion
+
+#pragma region Desktop Family or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
 
 WINUSERAPI
 BOOL
@@ -3471,7 +3525,7 @@ PeekMessageW(
 #define PeekMessage  PeekMessageA
 #endif // !UNICODE
 
-#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES) */
 #pragma endregion
 
 /*
@@ -3480,6 +3534,8 @@ PeekMessageW(
 #define PM_NOREMOVE         0x0000
 #define PM_REMOVE           0x0001
 #define PM_NOYIELD          0x0002
+
+
 #if(WINVER >= 0x0500)
 #define PM_QS_INPUT         (QS_INPUT << 16)
 #define PM_QS_POSTMESSAGE   ((QS_POSTMESSAGE | QS_HOTKEY | QS_TIMER) << 16)
@@ -3560,6 +3616,8 @@ UnregisterHotKey(
 #endif /* _WIN32_WINNT >= 0x0600 */
 #define EWX_HYBRID_SHUTDOWN         0x00400000
 #define EWX_BOOTOPTIONS             0x01000000
+#define EWX_ARSO                    0x04000000
+
 
 #pragma region Desktop Family
 #if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
@@ -3624,6 +3682,12 @@ SetMessageExtraInfo(
     _In_ LPARAM lParam);
 #endif /* WINVER >= 0x0400 */
 
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
+#pragma endregion
+
+#pragma region Desktop Family or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
+
 WINUSERAPI
 LRESULT
 WINAPI
@@ -3670,7 +3734,11 @@ SendMessage(
 }
 #endif  /* _M_CEE */
 
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES) */
+#pragma endregion
 
+#pragma region Desktop Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 
 WINUSERAPI
 LRESULT
@@ -3952,7 +4020,7 @@ UnregisterSuspendResumeNotification (
 #pragma endregion
 
 #pragma region Desktop Family
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
 
 WINUSERAPI
 BOOL
@@ -3998,7 +4066,7 @@ PostThreadMessageW(
 #define PostThreadMessage  PostThreadMessageA
 #endif // !UNICODE
 
-#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES) */
 #pragma endregion
 
 #define PostAppMessageA(idThread, wMsg, wParam, lParam)\
@@ -4054,6 +4122,12 @@ WINAPI
 WaitForInputIdle(
     _In_ HANDLE hProcess,
     _In_ DWORD dwMilliseconds);
+
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
+#pragma endregion
+
+#pragma region Desktop Family or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
 
 WINUSERAPI
 #ifndef _MAC
@@ -4147,6 +4221,12 @@ CallWindowProcW(
 
 #endif /* !STRICT */
 
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES) */
+#pragma endregion
+
+#pragma region Desktop Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+
 WINUSERAPI
 BOOL
 WINAPI
@@ -4196,6 +4276,12 @@ WINAPI
 SetDoubleClickTime(
     _In_ UINT);
 
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
+#pragma endregion
+
+#pragma region Desktop Family or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
+
 WINUSERAPI
 ATOM
 WINAPI
@@ -4230,6 +4316,12 @@ UnregisterClassW(
 #define UnregisterClass  UnregisterClassA
 #endif // !UNICODE
 
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES) */
+#pragma endregion
+
+#pragma region Desktop Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+
 _Success_(return)
 WINUSERAPI
 BOOL
@@ -4252,6 +4344,12 @@ GetClassInfoW(
 #define GetClassInfo  GetClassInfoA
 #endif // !UNICODE
 
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
+#pragma endregion
+
+#pragma region Desktop Family or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
+
 #if(WINVER >= 0x0400)
 WINUSERAPI
 ATOM
@@ -4268,6 +4366,12 @@ RegisterClassExW(
 #else
 #define RegisterClassEx  RegisterClassExA
 #endif // !UNICODE
+
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES) */
+#pragma endregion
+
+#pragma region Desktop Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 
 _Success_(return)
 WINUSERAPI
@@ -4303,8 +4407,8 @@ GetClassInfoExW(
  */
 #define HWND_DESKTOP        ((HWND)0)
 
-#pragma region Desktop Family
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+#pragma region Desktop Family or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
 
 #if(_WIN32_WINNT >= 0x0501)
 typedef BOOLEAN (WINAPI * PREGISTERCLASSNAMEW)(LPCWSTR);
@@ -4348,7 +4452,7 @@ CreateWindowExW(
 #define CreateWindowEx  CreateWindowExA
 #endif // !UNICODE
 
-#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES) */
 #pragma endregion
 
 #define CreateWindowA(lpClassName, lpWindowName, dwStyle, x, y,\
@@ -4389,6 +4493,12 @@ IsChild(
     _In_ HWND hWndParent,
     _In_ HWND hWnd);
 
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
+#pragma endregion
+
+#pragma region Desktop or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
+
 WINUSERAPI
 BOOL
 WINAPI
@@ -4401,6 +4511,12 @@ WINAPI
 ShowWindow(
     _In_ HWND hWnd,
     _In_ int nCmdShow);
+
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES) */
+#pragma endregion
+
+#pragma region Desktop Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 
 #if(WINVER >= 0x0500)
 WINUSERAPI
@@ -4593,6 +4709,12 @@ WINAPI
 CloseWindow(
     _In_  HWND hWnd);
 
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
+#pragma endregion
+
+#pragma region Desktop Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
+
 WINUSERAPI
 BOOL
 WINAPI
@@ -4615,6 +4737,12 @@ SetWindowPos(
     _In_ int cx,
     _In_ int cy,
     _In_ UINT uFlags);
+
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES) */
+#pragma endregion
+
+#pragma region Desktop Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 
 WINUSERAPI
 BOOL
@@ -4691,13 +4819,19 @@ EndDeferWindowPos(
 #endif /* !NODEFERWINDOWPOS */
 
 #pragma region Desktop Family
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
 
 WINUSERAPI
 BOOL
 WINAPI
 IsWindowVisible(
     _In_ HWND hWnd);
+
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES) */
+#pragma endregion
+
+#pragma region Desktop Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 
 WINUSERAPI
 BOOL
@@ -6292,6 +6426,12 @@ typedef struct tagPOINTER_PEN_INFO {
 #define TOUCH_FEEDBACK_INDIRECT 0x2
 #define TOUCH_FEEDBACK_NONE 0x3
 
+typedef enum {
+    POINTER_FEEDBACK_DEFAULT = 1,   // The injected pointer input feedback may get suppressed by the end-user settings in the Pen and Touch control panel.
+    POINTER_FEEDBACK_INDIRECT = 2,  // The injected pointer input feedback overrides the end-user settings in the Pen and Touch control panel.
+    POINTER_FEEDBACK_NONE = 3,      // No touch visualizations.
+} POINTER_FEEDBACK_MODE;
+
 #pragma region Desktop Family
 #if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 
@@ -6447,6 +6587,7 @@ GetPointerFramePenInfoHistory(
     _Inout_ UINT32 *pointerCount,
     _Out_writes_opt_(*entriesCount * *pointerCount) POINTER_PEN_INFO *penInfo);
 
+
 WINUSERAPI
 BOOL
 WINAPI
@@ -6481,6 +6622,31 @@ WINAPI
 UnregisterPointerInputTargetEx(
     _In_ HWND hwnd,
     _In_ POINTER_INPUT_TYPE pointerType);
+
+#if (NTDDI_VERSION >= NTDDI_WIN10_RS5)
+DECLARE_HANDLE(HSYNTHETICPOINTERDEVICE);
+WINUSERAPI
+HSYNTHETICPOINTERDEVICE
+WINAPI
+CreateSyntheticPointerDevice(
+    _In_ POINTER_INPUT_TYPE pointerType,
+    _In_ ULONG maxCount,
+    _In_ POINTER_FEEDBACK_MODE mode);
+
+WINUSERAPI
+BOOL
+WINAPI
+InjectSyntheticPointerInput(
+    _In_ HSYNTHETICPOINTERDEVICE device,
+    _In_reads_(count) CONST POINTER_TYPE_INFO* pointerInfo,
+    _In_ UINT32 count);
+
+WINUSERAPI
+VOID
+WINAPI
+DestroySyntheticPointerDevice(
+    _In_ HSYNTHETICPOINTERDEVICE device);
+#endif // NTDDI_VERSION >= NTDDI_WIN10_RS5
 
 
 WINUSERAPI
@@ -6847,11 +7013,11 @@ MsgWaitForMultipleObjectsEx(
                             QS_SENDMESSAGE)
 
 
+#pragma region Desktop Family or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
+
 #define USER_TIMER_MAXIMUM  0x7FFFFFFF
 #define USER_TIMER_MINIMUM  0x0000000A
-
-#pragma region Desktop Family
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 
 /*
  * Windows Functions
@@ -6874,6 +7040,16 @@ SetTimer(
 #define TIMERV_COALESCING_MIN       (1)
 #define TIMERV_COALESCING_MAX       (0x7FFFFFF5)
 
+#endif /* WINVER >= 0x0601 */
+
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES) */
+#pragma endregion
+
+#pragma region Desktop Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+
+#if(WINVER >= 0x0601)
+
 WINUSERAPI
 UINT_PTR
 WINAPI
@@ -6886,12 +7062,24 @@ SetCoalescableTimer(
 
 #endif /* WINVER >= 0x0601 */
 
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
+#pragma endregion
+
+#pragma region Desktop Family or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
+
 WINUSERAPI
 BOOL
 WINAPI
 KillTimer(
     _In_opt_ HWND hWnd,
     _In_ UINT_PTR uIDEvent);
+
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES) */
+#pragma endregion
+
+#pragma region Desktop Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 
 WINUSERAPI
 BOOL
@@ -8607,6 +8795,7 @@ EnableScrollBar(
 
 #endif  /* !NOSCROLL */
 
+
 WINUSERAPI
 BOOL
 WINAPI
@@ -8757,6 +8946,12 @@ GetWindowTextLengthW(
 #define GetWindowTextLength  GetWindowTextLengthA
 #endif // !UNICODE
 
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
+#pragma endregion
+
+#pragma region Desktop Family or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
+
 WINUSERAPI
 BOOL
 WINAPI
@@ -8764,12 +8959,24 @@ GetClientRect(
     _In_ HWND hWnd,
     _Out_ LPRECT lpRect);
 
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES) */
+#pragma endregion
+
+#pragma region Desktop Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+
 WINUSERAPI
 BOOL
 WINAPI
 GetWindowRect(
     _In_ HWND hWnd,
     _Out_ LPRECT lpRect);
+
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
+#pragma endregion
+
+#pragma region Desktop Family or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
 
 WINUSERAPI
 BOOL
@@ -8787,6 +8994,12 @@ AdjustWindowRectEx(
     _In_ DWORD dwStyle,
     _In_ BOOL bMenu,
     _In_ DWORD dwExStyle);
+
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES) */
+#pragma endregion
+
+#pragma region Desktop Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 
 #if(WINVER >= 0x0605)
 WINUSERAPI
@@ -9076,11 +9289,23 @@ MessageBeep(
 #if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 
 
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
+#pragma endregion
+
+#pragma region Desktop Family or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
+
 WINUSERAPI
 int
 WINAPI
 ShowCursor(
     _In_ BOOL bShow);
+
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES) */
+#pragma endregion
+
+#pragma region Desktop Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 
 WINUSERAPI
 BOOL
@@ -9098,6 +9323,12 @@ SetPhysicalCursorPos(
     _In_ int Y);
 #endif /* WINVER >= 0x0600 */
 
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
+#pragma endregion
+
+#pragma region Desktop Family or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
+
 WINUSERAPI
 HCURSOR
 WINAPI
@@ -9109,6 +9340,12 @@ BOOL
 WINAPI
 GetCursorPos(
     _Out_ LPPOINT lpPoint);
+
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES) */
+#pragma endregion
+
+#pragma region Desktop Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 
 #if(WINVER >= 0x0600)
 WINUSERAPI
@@ -9524,6 +9761,16 @@ SetWindowWord(
     _In_ int nIndex,
     _In_ WORD wNewWord);
 
+#endif /* !NOWINOFFSETS */
+
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
+#pragma endregion
+
+#pragma region Desktop Family or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
+
+#ifndef NOWINOFFSETS
+
 WINUSERAPI
 LONG
 WINAPI
@@ -9621,6 +9868,16 @@ SetWindowLongPtrW(
 #endif // !UNICODE
 
 #endif /* _WIN64 */
+
+#endif /* !NOWINOFFSETS */
+
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES) */
+#pragma endregion
+
+#pragma region Desktop Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+
+#ifndef NOWINOFFSETS
 
 WINUSERAPI
 WORD
@@ -9860,6 +10117,12 @@ EnumThreadWindows(
 
 #define EnumTaskWindows(hTask, lpfn, lParam) EnumThreadWindows(HandleToUlong(hTask), lpfn, lParam)
 
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
+#pragma endregion
+
+#pragma region Desktop Family or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
+
 WINUSERAPI
 int
 WINAPI
@@ -9904,7 +10167,11 @@ GetClassName(
 }
 #endif  /* _M_CEE */
 
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES) */
+#pragma endregion
 
+#pragma region Desktop Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 
 WINUSERAPI
 HWND
@@ -10248,6 +10515,12 @@ LoadBitmapW(
 #define LoadBitmap  LoadBitmapA
 #endif // !UNICODE
 
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
+#pragma endregion
+
+#pragma region Desktop or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
+
 WINUSERAPI
 HCURSOR
 WINAPI
@@ -10266,6 +10539,12 @@ LoadCursorW(
 #define LoadCursor  LoadCursorA
 #endif // !UNICODE
 
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES) */
+#pragma endregion
+
+#pragma region Desktop Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+
 WINUSERAPI
 HCURSOR
 WINAPI
@@ -10281,6 +10560,12 @@ LoadCursorFromFileW(
 #else
 #define LoadCursorFromFile  LoadCursorFromFileA
 #endif // !UNICODE
+
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
+#pragma endregion
+
+#pragma region Desktop or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
 
 WINUSERAPI
 HCURSOR
@@ -10299,6 +10584,12 @@ BOOL
 WINAPI
 DestroyCursor(
     _In_ HCURSOR hCursor);
+
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES) */
+#pragma endregion
+
+#pragma region Desktop Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 
 #ifndef _MAC
 #define CopyCursor(pcur) ((HCURSOR)CopyIcon((HICON)(pcur)))
@@ -14136,6 +14427,16 @@ SetProcessDpiAwarenessContext(
 
 #endif /* WINVER >= 0x0605 */
 
+#if (NTDDI_VERSION >= NTDDI_WIN10_19H1)
+
+WINUSERAPI
+DPI_AWARENESS_CONTEXT
+WINAPI
+GetDpiAwarenessContextForProcess(
+    _In_ HANDLE hProcess);
+
+#endif // NTDDI_VERSION >= NTDDI_WIN10_19H1
+
 #if(WINVER >= 0x0606)
 
 WINUSERAPI
@@ -14219,8 +14520,8 @@ GetWindowModuleFileNameW(
 #define CCHILDREN_TITLEBAR              5
 #define CCHILDREN_SCROLLBAR             5
 
-#pragma region Desktop Family
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+#pragma region Desktop Family or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
 
 /*
  * Information about the global cursor.
@@ -14243,6 +14544,12 @@ BOOL
 WINAPI
 GetCursorInfo(
     _Inout_ PCURSORINFO pci);
+
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES) */
+#pragma endregion
+
+#pragma region Desktop Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 
 /*
  * Window information snapshot
@@ -15485,8 +15792,8 @@ GetCIMSSM(
 
 #if(WINVER >= 0x0601)
 
-#pragma region Application Family or OneCore Family
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_SYSTEM)
+#pragma region Application Family or OneCore Family or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_SYSTEM | WINAPI_PARTITION_GAMES)
 
 /*
  * AutoRotation state structure
@@ -15503,7 +15810,7 @@ typedef enum tagAR_STATE {
     AR_LAPTOP         = 0x80
 } AR_STATE, *PAR_STATE;
 
-#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_SYSTEM) */
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_SYSTEM | WINAPI_PARTITION_GAMES) */
 #pragma endregion
 
 #ifndef MIDL_PASS

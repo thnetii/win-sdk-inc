@@ -38,8 +38,9 @@
 // APISET contracts
 //
 
+#include <apiquery2.h>
 #include <processenv.h>
-#include <fileapi.h>
+#include <fileapifromapp.h>
 #include <debugapi.h>
 #include <utilapiset.h>
 #include <handleapi.h>
@@ -114,7 +115,20 @@ extern "C" {
 #define WAIT_IO_COMPLETION                  STATUS_USER_APC
 
 #define SecureZeroMemory RtlSecureZeroMemory
+
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_SYSTEM) */
+#pragma endregion
+
+#pragma region Application Family or OneCore Family or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_SYSTEM | WINAPI_PARTITION_GAMES)
+
 #define CaptureStackBackTrace RtlCaptureStackBackTrace
+
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_SYSTEM | WINAPI_PARTITION_GAMES) */
+#pragma endregion
+
+#pragma region Application Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_SYSTEM)
 
 //
 // File creation flags must start at the high end since they
@@ -209,6 +223,13 @@ extern "C" {
 
 #define COPY_FILE_IGNORE_EDP_BLOCK                   0x00400000
 #define COPY_FILE_IGNORE_SOURCE_ENCRYPTION           0x00800000
+
+// If either source or target is an SMB share, compression
+// will be requested on all READs and WRITEs.
+#define COPY_FILE_REQUEST_COMPRESSED_TRAFFIC     0x01000000
+
+// Don't request WRITE_DAC for the destination file access.
+#define COPY_FILE_DONT_REQUEST_DEST_WRITE_DAC    0x02000000
 
 #endif
 
@@ -1756,8 +1777,8 @@ PowerClearRequest (
 #endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP) */
 #pragma endregion
 
-#pragma region Desktop Family
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+#pragma region Desktop or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
 
 #if !defined(RC_INVOKED) // RC warns because "WINBASE_DECLARE_RESTORE_LAST_ERROR" is a bit long.
 //#if _WIN32_WINNT >= 0x0501 || defined(WINBASE_DECLARE_RESTORE_LAST_ERROR)
@@ -1780,7 +1801,7 @@ typedef VOID (WINAPI* PRESTORE_LAST_ERROR)(DWORD);
 
 #define HasOverlappedIoCompleted(lpOverlapped) (((DWORD)(lpOverlapped)->Internal) != STATUS_PENDING)
 
-#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES) */
 #pragma endregion
 
 #pragma region Application Family or OneCore Family
@@ -2370,8 +2391,8 @@ DosDateTimeToFileTime(
 #endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
 #pragma endregion
 
-#pragma region Application Family or OneCore Family
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_SYSTEM)
+#pragma region Application Family or OneCore Family or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_SYSTEM | WINAPI_PARTITION_GAMES)
 
 //
 // FORMAT_MESSAGE_ALLOCATE_BUFFER requires use of HeapFree
@@ -2454,7 +2475,7 @@ FormatMessage(
 #define FORMAT_MESSAGE_ARGUMENT_ARRAY  0x00002000
 #define FORMAT_MESSAGE_MAX_WIDTH_MASK  0x000000FF
 
-#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_SYSTEM) */
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_SYSTEM | WINAPI_PARTITION_GAMES) */
 #pragma endregion
 
 #pragma region Desktop Family
@@ -3028,6 +3049,7 @@ typedef struct _WIN32_STREAM_ID {
 #define STARTF_UNTRUSTEDSOURCE     0x00008000
 #endif /* WINVER >= 0x0600 */
 
+
 #if (_WIN32_WINNT >= 0x0600)
 
 typedef struct _STARTUPINFOEXA {
@@ -3382,6 +3404,11 @@ typedef enum _PROC_THREAD_ATTRIBUTE_NUM {
 #if (NTDDI_VERSION >= NTDDI_WIN10_RS2)
     ProcThreadAttributeDesktopAppPolicy = 18,
 #endif
+#if (NTDDI_VERSION >= NTDDI_WIN10_RS5)
+    ProcThreadAttributePseudoConsole                = 22,
+#endif
+#if (NTDDI_VERSION >= NTDDI_WIN10_19H1)
+#endif
 } PROC_THREAD_ATTRIBUTE_NUM;
 #endif
 
@@ -3420,6 +3447,11 @@ typedef enum _PROC_THREAD_ATTRIBUTE_NUM {
     ProcThreadAttributeValue (ProcThreadAttributeProtectionLevel, FALSE, TRUE, FALSE)
 
 #if (_WIN32_WINNT >= _WIN32_WINNT_WINBLUE)
+#endif
+
+#if (NTDDI_VERSION >= NTDDI_WIN10_RS5)
+#define PROC_THREAD_ATTRIBUTE_PSEUDOCONSOLE \
+    ProcThreadAttributeValue (ProcThreadAttributePseudoConsole, FALSE, TRUE, FALSE)
 #endif
 
 #if (_WIN32_WINNT >= _WIN32_WINNT_WIN7)
@@ -3645,6 +3677,26 @@ typedef enum _PROC_THREAD_ATTRIBUTE_NUM {
 #define PROCESS_CREATION_MITIGATION_POLICY2_RESTRICT_INDIRECT_BRANCH_PREDICTION_ALWAYS_OFF  (0x00000002ui64 << 16)
 #define PROCESS_CREATION_MITIGATION_POLICY2_RESTRICT_INDIRECT_BRANCH_PREDICTION_RESERVED    (0x00000003ui64 << 16)
 
+//
+// Define the policy option that allows a broker to downgrade the dynamic code policy for a process.
+//
+
+#define PROCESS_CREATION_MITIGATION_POLICY2_ALLOW_DOWNGRADE_DYNAMIC_CODE_POLICY_MASK       (0x00000003ui64 << 20)
+#define PROCESS_CREATION_MITIGATION_POLICY2_ALLOW_DOWNGRADE_DYNAMIC_CODE_POLICY_DEFER      (0x00000000ui64 << 20)
+#define PROCESS_CREATION_MITIGATION_POLICY2_ALLOW_DOWNGRADE_DYNAMIC_CODE_POLICY_ALWAYS_ON  (0x00000001ui64 << 20)
+#define PROCESS_CREATION_MITIGATION_POLICY2_ALLOW_DOWNGRADE_DYNAMIC_CODE_POLICY_ALWAYS_OFF (0x00000002ui64 << 20)
+#define PROCESS_CREATION_MITIGATION_POLICY2_ALLOW_DOWNGRADE_DYNAMIC_CODE_POLICY_RESERVED   (0x00000003ui64 << 20)
+
+//
+// Define the Memory Disambiguation Disable mitigation policy options.
+//
+
+#define PROCESS_CREATION_MITIGATION_POLICY2_SPECULATIVE_STORE_BYPASS_DISABLE_MASK          (0x00000003ui64 << 24)
+#define PROCESS_CREATION_MITIGATION_POLICY2_SPECULATIVE_STORE_BYPASS_DISABLE_DEFER         (0x00000000ui64 << 24)
+#define PROCESS_CREATION_MITIGATION_POLICY2_SPECULATIVE_STORE_BYPASS_DISABLE_ALWAYS_ON     (0x00000001ui64 << 24)
+#define PROCESS_CREATION_MITIGATION_POLICY2_SPECULATIVE_STORE_BYPASS_DISABLE_ALWAYS_OFF    (0x00000002ui64 << 24)
+#define PROCESS_CREATION_MITIGATION_POLICY2_SPECULATIVE_STORE_BYPASS_DISABLE_RESERVED      (0x00000003ui64 << 24)
+
 #endif // _WIN32_WINNT_WINTHRESHOLD
 #endif // _WIN32_WINNT_WINBLUE
 #endif // _WIN32_WINNT_WIN8
@@ -3699,6 +3751,16 @@ typedef enum _PROC_THREAD_ATTRIBUTE_NUM {
 
 
 #endif // NTDDI_WIN10_RS2
+
+#if (NTDDI_VERSION >= NTDDI_WIN10_RS5)
+
+
+#endif // NTDDI_WIN10_RS5
+
+#if (NTDDI_VERSION >= NTDDI_WIN10_19H1)
+
+
+#endif // NTDDI_WIN10_19H1
 
 #endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_SYSTEM) */
 #pragma endregion
@@ -4776,6 +4838,12 @@ GetCurrentDirectory(
 }
 #endif  /* _M_CEE */
 
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
+#pragma endregion
+
+#pragma region Desktop Family or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
+
 #if _WIN32_WINNT >= 0x0502
 
 WINBASEAPI
@@ -4795,7 +4863,15 @@ SetDllDirectoryW(
 #else
 #define SetDllDirectory  SetDllDirectoryA
 #endif // !UNICODE
+#endif // _WIN32_WINNT >= 0x0502
 
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES) */
+#pragma endregion
+
+#pragma region Desktop Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+
+#if _WIN32_WINNT >= 0x0502
 WINBASEAPI
 _Success_(return != 0 && return < nBufferLength)
 DWORD
@@ -5564,8 +5640,8 @@ CopyFile2(
 
 #endif /* _WIN32_WINNT >= 0x0400 */
 
-#pragma region Desktop Family
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+#pragma region Desktop Family or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
 
 WINBASEAPI
 BOOL
@@ -5607,11 +5683,11 @@ MoveFile(
 }
 #endif  /* _M_CEE */
 
-#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES) */
 #pragma endregion
 
-#pragma region Application Family or OneCore Family
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_SYSTEM)
+#pragma region Application Family or OneCore Family or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_SYSTEM | WINAPI_PARTITION_GAMES)
 
 WINBASEAPI
 BOOL
@@ -5635,7 +5711,7 @@ MoveFileExW(
 #define MoveFileEx  MoveFileExA
 #endif // !UNICODE
 
-#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_SYSTEM) */
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_SYSTEM | WINAPI_PARTITION_GAMES) */
 #pragma endregion
 
 #pragma region Desktop Family or OneCore Family
@@ -7277,6 +7353,11 @@ IsTokenUntrusted(
     _In_ HANDLE TokenHandle
     );
 
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
+
+#pragma region Desktop or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
+
 //
 // Thread pool API's
 //
@@ -7343,7 +7424,7 @@ DeleteTimerQueue(
 
 #endif // _WIN32_WINNT >= 0x0500
 
-#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES) */
 
 #if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP)
 
@@ -8528,6 +8609,10 @@ typedef struct _FILE_NAME_INFO {
     WCHAR FileName[1];
 } FILE_NAME_INFO, *PFILE_NAME_INFO;
 
+typedef struct _FILE_CASE_SENSITIVE_INFO {
+    ULONG Flags;
+} FILE_CASE_SENSITIVE_INFO, *PFILE_CASE_SENSITIVE_INFO;
+
 #if (_WIN32_WINNT >= _WIN32_WINNT_WIN10_RS1)
 #define FILE_RENAME_FLAG_REPLACE_IF_EXISTS                  0x00000001
 #define FILE_RENAME_FLAG_POSIX_SEMANTICS                    0x00000002
@@ -8591,6 +8676,9 @@ typedef struct _FILE_DISPOSITION_INFO {
 #define FILE_DISPOSITION_FLAG_POSIX_SEMANTICS            0x00000002
 #define FILE_DISPOSITION_FLAG_FORCE_IMAGE_SECTION_CHECK  0x00000004
 #define FILE_DISPOSITION_FLAG_ON_CLOSE                   0x00000008
+#if (_WIN32_WINNT >= _WIN32_WINNT_WIN10_RS5)
+#define FILE_DISPOSITION_FLAG_IGNORE_READONLY_ATTRIBUTE  0x00000010
+#endif
 
 typedef struct _FILE_DISPOSITION_INFO_EX {
     DWORD Flags;
@@ -9013,6 +9101,23 @@ InitializeContext(
     _Out_ PCONTEXT* Context,
     _Inout_ PDWORD ContextLength
     );
+
+#if (NTDDI_VERSION >= NTDDI_WIN10_RS5)
+
+_Success_(return != FALSE)
+WINBASEAPI
+BOOL
+WINAPI
+InitializeContext2(
+    _Out_writes_bytes_opt_(*ContextLength) PVOID Buffer,
+    _In_ DWORD ContextFlags,
+    _Out_ PCONTEXT* Context,
+    _Inout_ PDWORD ContextLength,
+    _In_ ULONG64 XStateCompactionMask
+    );
+
+#endif // (NTDDI_VERSION >= NTDDI_WIN10_RS5)
+
 #endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_SYSTEM) */
 #pragma endregion
 

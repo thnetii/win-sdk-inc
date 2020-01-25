@@ -282,7 +282,8 @@ typedef
 enum _ATTACH_VIRTUAL_DISK_VERSION
     {
         ATTACH_VIRTUAL_DISK_VERSION_UNSPECIFIED	= 0,
-        ATTACH_VIRTUAL_DISK_VERSION_1	= 1
+        ATTACH_VIRTUAL_DISK_VERSION_1	= 1,
+        ATTACH_VIRTUAL_DISK_VERSION_2	= 2
     } 	ATTACH_VIRTUAL_DISK_VERSION;
 
 typedef struct _ATTACH_VIRTUAL_DISK_PARAMETERS
@@ -294,6 +295,11 @@ typedef struct _ATTACH_VIRTUAL_DISK_PARAMETERS
             {
             ULONG Reserved;
             } 	Version1;
+        struct 
+            {
+            ULONGLONG RestrictedOffset;
+            ULONGLONG RestrictedLength;
+            } 	Version2;
         } 	;
     } 	ATTACH_VIRTUAL_DISK_PARAMETERS;
 
@@ -308,7 +314,11 @@ enum _ATTACH_VIRTUAL_DISK_FLAG
         ATTACH_VIRTUAL_DISK_FLAG_PERMANENT_LIFETIME	= 0x4,
         ATTACH_VIRTUAL_DISK_FLAG_NO_LOCAL_HOST	= 0x8,
         ATTACH_VIRTUAL_DISK_FLAG_NO_SECURITY_DESCRIPTOR	= 0x10,
-        ATTACH_VIRTUAL_DISK_FLAG_BYPASS_DEFAULT_ENCRYPTION_POLICY	= 0x20
+        ATTACH_VIRTUAL_DISK_FLAG_BYPASS_DEFAULT_ENCRYPTION_POLICY	= 0x20,
+        ATTACH_VIRTUAL_DISK_FLAG_NON_PNP	= 0x40,
+        ATTACH_VIRTUAL_DISK_FLAG_RESTRICTED_RANGE	= 0x80,
+        ATTACH_VIRTUAL_DISK_FLAG_SINGLE_PARTITION	= 0x100,
+        ATTACH_VIRTUAL_DISK_FLAG_REGISTER_VOLUME	= 0x200
     } 	ATTACH_VIRTUAL_DISK_FLAG;
 
 DWORD __stdcall AttachVirtualDisk( 
@@ -979,6 +989,43 @@ DWORD __stdcall RawSCSIVirtualDisk(
     const PRAW_SCSI_VIRTUAL_DISK_PARAMETERS Parameters,
     RAW_SCSI_VIRTUAL_DISK_FLAG Flags,
     PRAW_SCSI_VIRTUAL_DISK_RESPONSE Response);
+
+typedef 
+enum _FORK_VIRTUAL_DISK_VERSION
+    {
+        FORK_VIRTUAL_DISK_VERSION_UNSPECIFIED	= 0,
+        FORK_VIRTUAL_DISK_VERSION_1	= 1
+    } 	FORK_VIRTUAL_DISK_VERSION;
+
+typedef struct _FORK_VIRTUAL_DISK_PARAMETERS
+    {
+    FORK_VIRTUAL_DISK_VERSION Version;
+    union 
+        {
+        struct 
+            {
+            PCWSTR ForkedVirtualDiskPath;
+            } 	Version1;
+        } 	;
+    } 	FORK_VIRTUAL_DISK_PARAMETERS;
+
+typedef struct _FORK_VIRTUAL_DISK_PARAMETERS *PFORK_VIRTUAL_DISK_PARAMETERS;
+
+typedef 
+enum _FORK_VIRTUAL_DISK_FLAG
+    {
+        FORK_VIRTUAL_DISK_FLAG_NONE	= 0,
+        FORK_VIRTUAL_DISK_FLAG_EXISTING_FILE	= 0x1
+    } 	FORK_VIRTUAL_DISK_FLAG;
+
+DWORD __stdcall ForkVirtualDisk( 
+    HANDLE VirtualDiskHandle,
+    FORK_VIRTUAL_DISK_FLAG Flags,
+    const FORK_VIRTUAL_DISK_PARAMETERS *Parameters,
+    LPOVERLAPPED Overlapped);
+
+DWORD __stdcall CompleteForkVirtualDisk( 
+    HANDLE VirtualDiskHandle);
 
 typedef 
 enum _SURFACE_VIRTUAL_DISK_FLAG

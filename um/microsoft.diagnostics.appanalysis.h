@@ -1,6 +1,6 @@
 /* Header file automatically generated from microsoft.diagnostics.appanalysis.idl */
 /*
- * File built with Microsoft(R) MIDLRT Compiler Engine Version 10.00.0215 
+ * File built with Microsoft(R) MIDLRT Compiler Engine Version 10.00.0226 
  */
 
 #pragma warning( disable: 4049 )  /* more than 64k source lines */
@@ -34,6 +34,14 @@
 
 #pragma once
 
+// Ensure that the setting of the /ns_prefix command line switch is consistent for all headers.
+// If you get an error from the compiler indicating "warning C4005: 'CHECK_NS_PREFIX_STATE': macro redefinition", this
+// indicates that you have included two different headers with different settings for the /ns_prefix MIDL command line switch
+#if !defined(DISABLE_NS_PREFIX_CHECKS)
+#define CHECK_NS_PREFIX_STATE "always"
+#endif // !defined(DISABLE_NS_PREFIX_CHECKS)
+
+
 #pragma push_macro("MIDL_CONST_ID")
 #undef MIDL_CONST_ID
 #define MIDL_CONST_ID const __declspec(selectany)
@@ -42,7 +50,7 @@
 //  API Contract Inclusion Definitions
 #if !defined(SPECIFIC_API_CONTRACT_DEFINITIONS)
 #if !defined(WINDOWS_APPLICATIONMODEL_CALLS_CALLSPHONECONTRACT_VERSION)
-#define WINDOWS_APPLICATIONMODEL_CALLS_CALLSPHONECONTRACT_VERSION 0x40000
+#define WINDOWS_APPLICATIONMODEL_CALLS_CALLSPHONECONTRACT_VERSION 0x50000
 #endif // defined(WINDOWS_APPLICATIONMODEL_CALLS_CALLSPHONECONTRACT_VERSION)
 
 #if !defined(WINDOWS_FOUNDATION_FOUNDATIONCONTRACT_VERSION)
@@ -50,7 +58,7 @@
 #endif // defined(WINDOWS_FOUNDATION_FOUNDATIONCONTRACT_VERSION)
 
 #if !defined(WINDOWS_FOUNDATION_UNIVERSALAPICONTRACT_VERSION)
-#define WINDOWS_FOUNDATION_UNIVERSALAPICONTRACT_VERSION 0x60000
+#define WINDOWS_FOUNDATION_UNIVERSALAPICONTRACT_VERSION 0x80000
 #endif // defined(WINDOWS_FOUNDATION_UNIVERSALAPICONTRACT_VERSION)
 
 #if !defined(WINDOWS_NETWORKING_SOCKETS_CONTROLCHANNELTRIGGERCONTRACT_VERSION)
@@ -89,9 +97,9 @@ namespace ABI {
         namespace Diagnostics {
             namespace AppAnalysis {
                 interface IEtwEvent;
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 #define __x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwEvent ABI::Microsoft::Diagnostics::AppAnalysis::IEtwEvent
 
 #endif // ____x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwEvent_FWD_DEFINED__
@@ -103,9 +111,9 @@ namespace ABI {
         namespace Diagnostics {
             namespace AppAnalysis {
                 interface IEtwEventFactory;
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 #define __x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwEventFactory ABI::Microsoft::Diagnostics::AppAnalysis::IEtwEventFactory
 
 #endif // ____x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwEventFactory_FWD_DEFINED__
@@ -117,9 +125,9 @@ namespace ABI {
         namespace Diagnostics {
             namespace AppAnalysis {
                 interface IEtwProvider;
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 #define __x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwProvider ABI::Microsoft::Diagnostics::AppAnalysis::IEtwProvider
 
 #endif // ____x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwProvider_FWD_DEFINED__
@@ -131,9 +139,9 @@ namespace ABI {
         namespace Diagnostics {
             namespace AppAnalysis {
                 interface IEtwProviderStatics;
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 #define __x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwProviderStatics ABI::Microsoft::Diagnostics::AppAnalysis::IEtwProviderStatics
 
 #endif // ____x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwProviderStatics_FWD_DEFINED__
@@ -145,9 +153,9 @@ namespace ABI {
         namespace Diagnostics {
             namespace AppAnalysis {
                 interface IEtwEventRecordCallback;
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 #define __x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwEventRecordCallback ABI::Microsoft::Diagnostics::AppAnalysis::IEtwEventRecordCallback
 
 #endif // ____x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwEventRecordCallback_FWD_DEFINED__
@@ -159,9 +167,9 @@ namespace ABI {
         namespace Diagnostics {
             namespace AppAnalysis {
                 interface IEtwEventWatcher;
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 #define __x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwEventWatcher ABI::Microsoft::Diagnostics::AppAnalysis::IEtwEventWatcher
 
 #endif // ____x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwEventWatcher_FWD_DEFINED__
@@ -173,9 +181,9 @@ namespace ABI {
         namespace Diagnostics {
             namespace AppAnalysis {
                 interface IEtwRule;
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 #define __x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwRule ABI::Microsoft::Diagnostics::AppAnalysis::IEtwRule
 
 #endif // ____x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwRule_FWD_DEFINED__
@@ -187,9 +195,9 @@ namespace ABI {
         namespace Diagnostics {
             namespace AppAnalysis {
                 interface IEtwRuleFactory;
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 #define __x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwRuleFactory ABI::Microsoft::Diagnostics::AppAnalysis::IEtwRuleFactory
 
 #endif // ____x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwRuleFactory_FWD_DEFINED__
@@ -201,9 +209,9 @@ namespace ABI {
         namespace Diagnostics {
             namespace AppAnalysis {
                 interface IResourceStringFactory;
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 #define __x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIResourceStringFactory ABI::Microsoft::Diagnostics::AppAnalysis::IResourceStringFactory
 
 #endif // ____x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIResourceStringFactory_FWD_DEFINED__
@@ -215,9 +223,9 @@ namespace ABI {
         namespace Diagnostics {
             namespace AppAnalysis {
                 interface IResourceString;
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 #define __x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIResourceString ABI::Microsoft::Diagnostics::AppAnalysis::IResourceString
 
 #endif // ____x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIResourceString_FWD_DEFINED__
@@ -229,9 +237,9 @@ namespace ABI {
         namespace Diagnostics {
             namespace AppAnalysis {
                 interface IResourceStringView;
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 #define __x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIResourceStringView ABI::Microsoft::Diagnostics::AppAnalysis::IResourceStringView
 
 #endif // ____x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIResourceStringView_FWD_DEFINED__
@@ -243,9 +251,9 @@ namespace ABI {
         namespace Diagnostics {
             namespace AppAnalysis {
                 interface IRule;
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 #define __x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIRule ABI::Microsoft::Diagnostics::AppAnalysis::IRule
 
 #endif // ____x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIRule_FWD_DEFINED__
@@ -257,9 +265,9 @@ namespace ABI {
         namespace Diagnostics {
             namespace AppAnalysis {
                 interface IEtwEventRecord;
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 #define __x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwEventRecord ABI::Microsoft::Diagnostics::AppAnalysis::IEtwEventRecord
 
 #endif // ____x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwEventRecord_FWD_DEFINED__
@@ -271,9 +279,9 @@ namespace ABI {
         namespace Diagnostics {
             namespace AppAnalysis {
                 interface IRuleTriggeredEventArgs;
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 #define __x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIRuleTriggeredEventArgs ABI::Microsoft::Diagnostics::AppAnalysis::IRuleTriggeredEventArgs
 
 #endif // ____x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIRuleTriggeredEventArgs_FWD_DEFINED__
@@ -285,9 +293,9 @@ namespace ABI {
         namespace Diagnostics {
             namespace AppAnalysis {
                 interface IRuleTriggeredEventArgsFactory;
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 #define __x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIRuleTriggeredEventArgsFactory ABI::Microsoft::Diagnostics::AppAnalysis::IRuleTriggeredEventArgsFactory
 
 #endif // ____x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIRuleTriggeredEventArgsFactory_FWD_DEFINED__
@@ -300,9 +308,9 @@ namespace ABI {
         namespace Diagnostics {
             namespace AppAnalysis {
                 class EtwEvent;
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 
 
 
@@ -324,7 +332,7 @@ IIterator<ABI::Microsoft::Diagnostics::AppAnalysis::EtwEvent*> : IIterator_impl<
 // correct parameterized interface specialization.
 typedef IIterator<ABI::Microsoft::Diagnostics::AppAnalysis::EtwEvent*> __FIIterator_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwEvent_t;
 #define __FIIterator_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwEvent ABI::Windows::Foundation::Collections::__FIIterator_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwEvent_t
-/* ABI */ } /* Windows */ } /* Foundation */ } /* Collections */ }
+/* Collections */ } /* Foundation */ } /* Windows */ } /* ABI */ } 
 
 ////  Define an alias for the C version of the interface for compatibility purposes.
 //#define __FIIterator_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwEvent ABI::Windows::Foundation::Collections::IIterator<ABI::Microsoft::Diagnostics::AppAnalysis::IEtwEvent*>
@@ -354,7 +362,7 @@ IIterable<ABI::Microsoft::Diagnostics::AppAnalysis::EtwEvent*> : IIterable_impl<
 // correct parameterized interface specialization.
 typedef IIterable<ABI::Microsoft::Diagnostics::AppAnalysis::EtwEvent*> __FIIterable_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwEvent_t;
 #define __FIIterable_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwEvent ABI::Windows::Foundation::Collections::__FIIterable_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwEvent_t
-/* ABI */ } /* Windows */ } /* Foundation */ } /* Collections */ }
+/* Collections */ } /* Foundation */ } /* Windows */ } /* ABI */ } 
 
 ////  Define an alias for the C version of the interface for compatibility purposes.
 //#define __FIIterable_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwEvent ABI::Windows::Foundation::Collections::IIterable<ABI::Microsoft::Diagnostics::AppAnalysis::IEtwEvent*>
@@ -384,7 +392,7 @@ IVectorView<ABI::Microsoft::Diagnostics::AppAnalysis::EtwEvent*> : IVectorView_i
 // correct parameterized interface specialization.
 typedef IVectorView<ABI::Microsoft::Diagnostics::AppAnalysis::EtwEvent*> __FIVectorView_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwEvent_t;
 #define __FIVectorView_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwEvent ABI::Windows::Foundation::Collections::__FIVectorView_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwEvent_t
-/* ABI */ } /* Windows */ } /* Foundation */ } /* Collections */ }
+/* Collections */ } /* Foundation */ } /* Windows */ } /* ABI */ } 
 
 ////  Define an alias for the C version of the interface for compatibility purposes.
 //#define __FIVectorView_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwEvent ABI::Windows::Foundation::Collections::IVectorView<ABI::Microsoft::Diagnostics::AppAnalysis::IEtwEvent*>
@@ -413,7 +421,7 @@ IIterator<HSTRING> : IIterator_impl<HSTRING>
 // correct parameterized interface specialization.
 typedef IIterator<HSTRING> __FIIterator_1_HSTRING_t;
 #define __FIIterator_1_HSTRING ABI::Windows::Foundation::Collections::__FIIterator_1_HSTRING_t
-/* ABI */ } /* Windows */ } /* Foundation */ } /* Collections */ }
+/* Collections */ } /* Foundation */ } /* Windows */ } /* ABI */ } 
 
 ////  Define an alias for the C version of the interface for compatibility purposes.
 //#define __FIIterator_1_HSTRING ABI::Windows::Foundation::Collections::IIterator<HSTRING>
@@ -442,7 +450,7 @@ IIterable<HSTRING> : IIterable_impl<HSTRING>
 // correct parameterized interface specialization.
 typedef IIterable<HSTRING> __FIIterable_1_HSTRING_t;
 #define __FIIterable_1_HSTRING ABI::Windows::Foundation::Collections::__FIIterable_1_HSTRING_t
-/* ABI */ } /* Windows */ } /* Foundation */ } /* Collections */ }
+/* Collections */ } /* Foundation */ } /* Windows */ } /* ABI */ } 
 
 ////  Define an alias for the C version of the interface for compatibility purposes.
 //#define __FIIterable_1_HSTRING ABI::Windows::Foundation::Collections::IIterable<HSTRING>
@@ -471,7 +479,7 @@ IVectorView<HSTRING> : IVectorView_impl<HSTRING>
 // correct parameterized interface specialization.
 typedef IVectorView<HSTRING> __FIVectorView_1_HSTRING_t;
 #define __FIVectorView_1_HSTRING ABI::Windows::Foundation::Collections::__FIVectorView_1_HSTRING_t
-/* ABI */ } /* Windows */ } /* Foundation */ } /* Collections */ }
+/* Collections */ } /* Foundation */ } /* Windows */ } /* ABI */ } 
 
 ////  Define an alias for the C version of the interface for compatibility purposes.
 //#define __FIVectorView_1_HSTRING ABI::Windows::Foundation::Collections::IVectorView<HSTRING>
@@ -500,7 +508,7 @@ IVector<HSTRING> : IVector_impl<HSTRING>
 // correct parameterized interface specialization.
 typedef IVector<HSTRING> __FIVector_1_HSTRING_t;
 #define __FIVector_1_HSTRING ABI::Windows::Foundation::Collections::__FIVector_1_HSTRING_t
-/* ABI */ } /* Windows */ } /* Foundation */ } /* Collections */ }
+/* Collections */ } /* Foundation */ } /* Windows */ } /* ABI */ } 
 
 ////  Define an alias for the C version of the interface for compatibility purposes.
 //#define __FIVector_1_HSTRING ABI::Windows::Foundation::Collections::IVector<HSTRING>
@@ -516,9 +524,9 @@ namespace ABI {
         namespace Diagnostics {
             namespace AppAnalysis {
                 class RuleTriggeredEventArgs;
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 
 
 
@@ -540,7 +548,7 @@ ITypedEventHandler<ABI::Microsoft::Diagnostics::AppAnalysis::IRule*,ABI::Microso
 // correct parameterized interface specialization.
 typedef ITypedEventHandler<ABI::Microsoft::Diagnostics::AppAnalysis::IRule*,ABI::Microsoft::Diagnostics::AppAnalysis::RuleTriggeredEventArgs*> __FITypedEventHandler_2_Microsoft__CDiagnostics__CAppAnalysis__CIRule_Microsoft__CDiagnostics__CAppAnalysis__CRuleTriggeredEventArgs_t;
 #define __FITypedEventHandler_2_Microsoft__CDiagnostics__CAppAnalysis__CIRule_Microsoft__CDiagnostics__CAppAnalysis__CRuleTriggeredEventArgs ABI::Windows::Foundation::__FITypedEventHandler_2_Microsoft__CDiagnostics__CAppAnalysis__CIRule_Microsoft__CDiagnostics__CAppAnalysis__CRuleTriggeredEventArgs_t
-/* ABI */ } /* Windows */ } /* Foundation */ }
+/* Foundation */ } /* Windows */ } /* ABI */ } 
 
 ////  Define an alias for the C version of the interface for compatibility purposes.
 //#define __FITypedEventHandler_2_Microsoft__CDiagnostics__CAppAnalysis__CIRule_Microsoft__CDiagnostics__CAppAnalysis__CRuleTriggeredEventArgs ABI::Windows::Foundation::ITypedEventHandler<ABI::Microsoft::Diagnostics::AppAnalysis::IRule*,ABI::Microsoft::Diagnostics::AppAnalysis::IRuleTriggeredEventArgs*>
@@ -555,9 +563,9 @@ namespace ABI {
         namespace Diagnostics {
             namespace AppAnalysis {
                 class EtwRule;
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 
 
 
@@ -579,7 +587,7 @@ IIterator<ABI::Microsoft::Diagnostics::AppAnalysis::EtwRule*> : IIterator_impl<A
 // correct parameterized interface specialization.
 typedef IIterator<ABI::Microsoft::Diagnostics::AppAnalysis::EtwRule*> __FIIterator_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwRule_t;
 #define __FIIterator_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwRule ABI::Windows::Foundation::Collections::__FIIterator_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwRule_t
-/* ABI */ } /* Windows */ } /* Foundation */ } /* Collections */ }
+/* Collections */ } /* Foundation */ } /* Windows */ } /* ABI */ } 
 
 ////  Define an alias for the C version of the interface for compatibility purposes.
 //#define __FIIterator_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwRule ABI::Windows::Foundation::Collections::IIterator<ABI::Microsoft::Diagnostics::AppAnalysis::IEtwRule*>
@@ -609,7 +617,7 @@ IIterable<ABI::Microsoft::Diagnostics::AppAnalysis::EtwRule*> : IIterable_impl<A
 // correct parameterized interface specialization.
 typedef IIterable<ABI::Microsoft::Diagnostics::AppAnalysis::EtwRule*> __FIIterable_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwRule_t;
 #define __FIIterable_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwRule ABI::Windows::Foundation::Collections::__FIIterable_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwRule_t
-/* ABI */ } /* Windows */ } /* Foundation */ } /* Collections */ }
+/* Collections */ } /* Foundation */ } /* Windows */ } /* ABI */ } 
 
 ////  Define an alias for the C version of the interface for compatibility purposes.
 //#define __FIIterable_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwRule ABI::Windows::Foundation::Collections::IIterable<ABI::Microsoft::Diagnostics::AppAnalysis::IEtwRule*>
@@ -639,7 +647,7 @@ IVectorView<ABI::Microsoft::Diagnostics::AppAnalysis::EtwRule*> : IVectorView_im
 // correct parameterized interface specialization.
 typedef IVectorView<ABI::Microsoft::Diagnostics::AppAnalysis::EtwRule*> __FIVectorView_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwRule_t;
 #define __FIVectorView_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwRule ABI::Windows::Foundation::Collections::__FIVectorView_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwRule_t
-/* ABI */ } /* Windows */ } /* Foundation */ } /* Collections */ }
+/* Collections */ } /* Foundation */ } /* Windows */ } /* ABI */ } 
 
 ////  Define an alias for the C version of the interface for compatibility purposes.
 //#define __FIVectorView_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwRule ABI::Windows::Foundation::Collections::IVectorView<ABI::Microsoft::Diagnostics::AppAnalysis::IEtwRule*>
@@ -654,9 +662,9 @@ namespace ABI {
         namespace Diagnostics {
             namespace AppAnalysis {
                 class EtwProvider;
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 
 
 
@@ -678,7 +686,7 @@ IIterator<ABI::Microsoft::Diagnostics::AppAnalysis::EtwProvider*> : IIterator_im
 // correct parameterized interface specialization.
 typedef IIterator<ABI::Microsoft::Diagnostics::AppAnalysis::EtwProvider*> __FIIterator_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwProvider_t;
 #define __FIIterator_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwProvider ABI::Windows::Foundation::Collections::__FIIterator_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwProvider_t
-/* ABI */ } /* Windows */ } /* Foundation */ } /* Collections */ }
+/* Collections */ } /* Foundation */ } /* Windows */ } /* ABI */ } 
 
 ////  Define an alias for the C version of the interface for compatibility purposes.
 //#define __FIIterator_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwProvider ABI::Windows::Foundation::Collections::IIterator<ABI::Microsoft::Diagnostics::AppAnalysis::IEtwProvider*>
@@ -708,7 +716,7 @@ IIterable<ABI::Microsoft::Diagnostics::AppAnalysis::EtwProvider*> : IIterable_im
 // correct parameterized interface specialization.
 typedef IIterable<ABI::Microsoft::Diagnostics::AppAnalysis::EtwProvider*> __FIIterable_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwProvider_t;
 #define __FIIterable_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwProvider ABI::Windows::Foundation::Collections::__FIIterable_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwProvider_t
-/* ABI */ } /* Windows */ } /* Foundation */ } /* Collections */ }
+/* Collections */ } /* Foundation */ } /* Windows */ } /* ABI */ } 
 
 ////  Define an alias for the C version of the interface for compatibility purposes.
 //#define __FIIterable_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwProvider ABI::Windows::Foundation::Collections::IIterable<ABI::Microsoft::Diagnostics::AppAnalysis::IEtwProvider*>
@@ -738,7 +746,7 @@ IVectorView<ABI::Microsoft::Diagnostics::AppAnalysis::EtwProvider*> : IVectorVie
 // correct parameterized interface specialization.
 typedef IVectorView<ABI::Microsoft::Diagnostics::AppAnalysis::EtwProvider*> __FIVectorView_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwProvider_t;
 #define __FIVectorView_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwProvider ABI::Windows::Foundation::Collections::__FIVectorView_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwProvider_t
-/* ABI */ } /* Windows */ } /* Foundation */ } /* Collections */ }
+/* Collections */ } /* Foundation */ } /* Windows */ } /* ABI */ } 
 
 ////  Define an alias for the C version of the interface for compatibility purposes.
 //#define __FIVectorView_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwProvider ABI::Windows::Foundation::Collections::IVectorView<ABI::Microsoft::Diagnostics::AppAnalysis::IEtwProvider*>
@@ -768,7 +776,7 @@ IVector<ABI::Microsoft::Diagnostics::AppAnalysis::EtwProvider*> : IVector_impl<A
 // correct parameterized interface specialization.
 typedef IVector<ABI::Microsoft::Diagnostics::AppAnalysis::EtwProvider*> __FIVector_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwProvider_t;
 #define __FIVector_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwProvider ABI::Windows::Foundation::Collections::__FIVector_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwProvider_t
-/* ABI */ } /* Windows */ } /* Foundation */ } /* Collections */ }
+/* Collections */ } /* Foundation */ } /* Windows */ } /* ABI */ } 
 
 ////  Define an alias for the C version of the interface for compatibility purposes.
 //#define __FIVector_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwProvider ABI::Windows::Foundation::Collections::IVector<ABI::Microsoft::Diagnostics::AppAnalysis::IEtwProvider*>
@@ -798,7 +806,7 @@ IVector<ABI::Microsoft::Diagnostics::AppAnalysis::EtwEvent*> : IVector_impl<ABI:
 // correct parameterized interface specialization.
 typedef IVector<ABI::Microsoft::Diagnostics::AppAnalysis::EtwEvent*> __FIVector_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwEvent_t;
 #define __FIVector_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwEvent ABI::Windows::Foundation::Collections::__FIVector_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwEvent_t
-/* ABI */ } /* Windows */ } /* Foundation */ } /* Collections */ }
+/* Collections */ } /* Foundation */ } /* Windows */ } /* ABI */ } 
 
 ////  Define an alias for the C version of the interface for compatibility purposes.
 //#define __FIVector_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwEvent ABI::Windows::Foundation::Collections::IVector<ABI::Microsoft::Diagnostics::AppAnalysis::IEtwEvent*>
@@ -828,7 +836,7 @@ IVector<ABI::Microsoft::Diagnostics::AppAnalysis::EtwRule*> : IVector_impl<ABI::
 // correct parameterized interface specialization.
 typedef IVector<ABI::Microsoft::Diagnostics::AppAnalysis::EtwRule*> __FIVector_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwRule_t;
 #define __FIVector_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwRule ABI::Windows::Foundation::Collections::__FIVector_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwRule_t
-/* ABI */ } /* Windows */ } /* Foundation */ } /* Collections */ }
+/* Collections */ } /* Foundation */ } /* Windows */ } /* ABI */ } 
 
 ////  Define an alias for the C version of the interface for compatibility purposes.
 //#define __FIVector_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwRule ABI::Windows::Foundation::Collections::IVector<ABI::Microsoft::Diagnostics::AppAnalysis::IEtwRule*>
@@ -841,11 +849,11 @@ typedef IVector<ABI::Microsoft::Diagnostics::AppAnalysis::EtwRule*> __FIVector_1
 
 
 
-#pragma warning(push)
-#pragma warning(disable:4668) 
-#pragma warning(disable:4001) 
-#pragma once
-#pragma warning(pop)
+#pragma warning (push)
+#pragma warning (disable:4668) 
+#pragma warning (disable:4001) 
+#pragma once 
+#pragma warning (pop)
 #pragma region Application Family
 #if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 // Win32 API definitions
@@ -868,9 +876,9 @@ namespace ABI {
         namespace Diagnostics {
             namespace AppAnalysis {
                 class ResourceString;
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 
 
 namespace ABI {
@@ -878,9 +886,9 @@ namespace ABI {
         namespace Diagnostics {
             namespace AppAnalysis {
                 class EtwEventRecord;
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 
 
 
@@ -890,9 +898,9 @@ namespace ABI {
         namespace Diagnostics {
             namespace AppAnalysis {
                 class EtwEventWatcher;
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 
 
 
@@ -901,9 +909,9 @@ namespace ABI {
         namespace Diagnostics {
             namespace AppAnalysis {
                 class EtwRuleSet;
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 
 
 
@@ -926,9 +934,9 @@ namespace ABI {
                     MeasurementUnit_Percentage,
                 } MeasurementUnit;
                 
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 
 
 /*
@@ -951,9 +959,9 @@ namespace ABI {
                 
                 DEFINE_ENUM_FLAG_OPERATORS(RuleCategories)
                 
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 
 
 /*
@@ -973,9 +981,9 @@ namespace ABI {
                     ProviderType_Kernel,
                 } ProviderType;
                 
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 
 
 /*
@@ -995,9 +1003,9 @@ namespace ABI {
                     ABI::Microsoft::Diagnostics::AppAnalysis::MeasurementUnit Unit;
                 } Measurement;
                 
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 
 
 /*
@@ -1017,9 +1025,9 @@ namespace ABI {
                     INT64 Stop;
                 } TimelineInfo;
                 
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 
 
 /*
@@ -1056,9 +1064,9 @@ namespace ABI {
 
                 extern MIDL_CONST_ID IID & IID_IEtwEvent=_uuidof(IEtwEvent);
                 
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 
 EXTERN_C const IID IID___x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwEvent;
 #endif /* !defined(____x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwEvent_INTERFACE_DEFINED__) */
@@ -1095,9 +1103,9 @@ namespace ABI {
 
                 extern MIDL_CONST_ID IID & IID_IEtwEventFactory=_uuidof(IEtwEventFactory);
                 
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 
 EXTERN_C const IID IID___x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwEventFactory;
 #endif /* !defined(____x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwEventFactory_INTERFACE_DEFINED__) */
@@ -1140,9 +1148,9 @@ namespace ABI {
 
                 extern MIDL_CONST_ID IID & IID_IEtwProvider=_uuidof(IEtwProvider);
                 
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 
 EXTERN_C const IID IID___x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwProvider;
 #endif /* !defined(____x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwProvider_INTERFACE_DEFINED__) */
@@ -1183,9 +1191,9 @@ namespace ABI {
 
                 extern MIDL_CONST_ID IID & IID_IEtwProviderStatics=_uuidof(IEtwProviderStatics);
                 
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 
 EXTERN_C const IID IID___x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwProviderStatics;
 #endif /* !defined(____x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwProviderStatics_INTERFACE_DEFINED__) */
@@ -1215,9 +1223,9 @@ namespace ABI {
 
                 extern MIDL_CONST_ID IID & IID_IEtwEventRecordCallback=_uuidof(IEtwEventRecordCallback);
                 
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 
 EXTERN_C const IID IID___x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwEventRecordCallback;
 #endif /* !defined(____x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwEventRecordCallback_INTERFACE_DEFINED__) */
@@ -1252,9 +1260,9 @@ namespace ABI {
 
                 extern MIDL_CONST_ID IID & IID_IEtwEventWatcher=_uuidof(IEtwEventWatcher);
                 
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 
 EXTERN_C const IID IID___x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwEventWatcher;
 #endif /* !defined(____x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwEventWatcher_INTERFACE_DEFINED__) */
@@ -1293,9 +1301,9 @@ namespace ABI {
 
                 extern MIDL_CONST_ID IID & IID_IEtwRule=_uuidof(IEtwRule);
                 
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 
 EXTERN_C const IID IID___x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwRule;
 #endif /* !defined(____x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwRule_INTERFACE_DEFINED__) */
@@ -1331,9 +1339,9 @@ namespace ABI {
 
                 extern MIDL_CONST_ID IID & IID_IEtwRuleFactory=_uuidof(IEtwRuleFactory);
                 
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 
 EXTERN_C const IID IID___x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwRuleFactory;
 #endif /* !defined(____x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwRuleFactory_INTERFACE_DEFINED__) */
@@ -1368,9 +1376,9 @@ namespace ABI {
 
                 extern MIDL_CONST_ID IID & IID_IResourceStringFactory=_uuidof(IResourceStringFactory);
                 
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 
 EXTERN_C const IID IID___x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIResourceStringFactory;
 #endif /* !defined(____x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIResourceStringFactory_INTERFACE_DEFINED__) */
@@ -1415,9 +1423,9 @@ namespace ABI {
 
                 extern MIDL_CONST_ID IID & IID_IResourceString=_uuidof(IResourceString);
                 
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 
 EXTERN_C const IID IID___x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIResourceString;
 #endif /* !defined(____x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIResourceString_INTERFACE_DEFINED__) */
@@ -1453,9 +1461,9 @@ namespace ABI {
 
                 extern MIDL_CONST_ID IID & IID_IResourceStringView=_uuidof(IResourceStringView);
                 
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 
 EXTERN_C const IID IID___x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIResourceStringView;
 #endif /* !defined(____x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIResourceStringView_INTERFACE_DEFINED__) */
@@ -1512,9 +1520,9 @@ namespace ABI {
 
                 extern MIDL_CONST_ID IID & IID_IRule=_uuidof(IRule);
                 
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 
 EXTERN_C const IID IID___x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIRule;
 #endif /* !defined(____x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIRule_INTERFACE_DEFINED__) */
@@ -1557,7 +1565,7 @@ namespace ABI {
                         ) = 0;
                     virtual HRESULT STDMETHODCALLTYPE GetBooleanProperty(
                         /* [in] */__RPC__in HSTRING propertyName,
-                        /* [retval, out] */__RPC__out boolean * value
+                        /* [retval, out] */__RPC__out ::boolean * value
                         ) = 0;
                     virtual HRESULT STDMETHODCALLTYPE GetFloatProperty(
                         /* [in] */__RPC__in HSTRING propertyName,
@@ -1592,9 +1600,9 @@ namespace ABI {
 
                 extern MIDL_CONST_ID IID & IID_IEtwEventRecord=_uuidof(IEtwEventRecord);
                 
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 
 EXTERN_C const IID IID___x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwEventRecord;
 #endif /* !defined(____x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIEtwEventRecord_INTERFACE_DEFINED__) */
@@ -1658,9 +1666,9 @@ namespace ABI {
 
                 extern MIDL_CONST_ID IID & IID_IRuleTriggeredEventArgs=_uuidof(IRuleTriggeredEventArgs);
                 
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 
 EXTERN_C const IID IID___x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIRuleTriggeredEventArgs;
 #endif /* !defined(____x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIRuleTriggeredEventArgs_INTERFACE_DEFINED__) */
@@ -1699,9 +1707,9 @@ namespace ABI {
 
                 extern MIDL_CONST_ID IID & IID_IRuleTriggeredEventArgsFactory=_uuidof(IRuleTriggeredEventArgsFactory);
                 
-            } /* Microsoft */
+            } /* AppAnalysis */
         } /* Diagnostics */
-    } /* AppAnalysis */} /* ABI */
+    } /* Microsoft */} /* ABI */
 
 EXTERN_C const IID IID___x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIRuleTriggeredEventArgsFactory;
 #endif /* !defined(____x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIRuleTriggeredEventArgsFactory_INTERFACE_DEFINED__) */
@@ -2645,7 +2653,7 @@ typedef struct __FITypedEventHandler_2_Microsoft__CDiagnostics__CAppAnalysis__CI
     ULONG ( STDMETHODCALLTYPE *AddRef )(__RPC__in __FITypedEventHandler_2_Microsoft__CDiagnostics__CAppAnalysis__CIRule_Microsoft__CDiagnostics__CAppAnalysis__CRuleTriggeredEventArgs * This);
     ULONG ( STDMETHODCALLTYPE *Release )(__RPC__in __FITypedEventHandler_2_Microsoft__CDiagnostics__CAppAnalysis__CIRule_Microsoft__CDiagnostics__CAppAnalysis__CRuleTriggeredEventArgs * This);
 
-    HRESULT ( STDMETHODCALLTYPE *Invoke )(__RPC__in __FITypedEventHandler_2_Microsoft__CDiagnostics__CAppAnalysis__CIRule_Microsoft__CDiagnostics__CAppAnalysis__CRuleTriggeredEventArgs * This,/* [in] */ __RPC__in_opt __x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIRule * sender,/* [in] */ __RPC__in_opt __x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIRuleTriggeredEventArgs * *e);
+    HRESULT ( STDMETHODCALLTYPE *Invoke )(__RPC__in __FITypedEventHandler_2_Microsoft__CDiagnostics__CAppAnalysis__CIRule_Microsoft__CDiagnostics__CAppAnalysis__CRuleTriggeredEventArgs * This,/* [in] */ __RPC__in_opt __x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIRule * sender,/* [in] */ __RPC__in_opt __x_ABI_CMicrosoft_CDiagnostics_CAppAnalysis_CIRuleTriggeredEventArgs * e);
     END_INTERFACE
 } __FITypedEventHandler_2_Microsoft__CDiagnostics__CAppAnalysis__CIRule_Microsoft__CDiagnostics__CAppAnalysis__CRuleTriggeredEventArgsVtbl;
 
@@ -3633,11 +3641,11 @@ interface __FIVector_1_Microsoft__CDiagnostics__CAppAnalysis__CEtwRule
 
 
 
-#pragma warning(push)
-#pragma warning(disable:4668) 
-#pragma warning(disable:4001) 
-#pragma once
-#pragma warning(pop)
+#pragma warning (push)
+#pragma warning (disable:4668) 
+#pragma warning (disable:4001) 
+#pragma once 
+#pragma warning (pop)
 #pragma region Application Family
 #if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 // Win32 API definitions

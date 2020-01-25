@@ -48,7 +48,22 @@
 #define AsApcListHead 0x0
 #define AsProcess 0x10
 #define AsKernelApcPending 0x15
-#define AsUserApcPending 0x16
+#define AsUserApcPendingAll 0x16
+#define KAPC_STATE_ANY_USER_APC_PENDING_MASK 0x3
+
+
+//
+// Apc Record Structure Offset Definitions
+//
+
+#define ArNormalRoutine 0x0
+#define ArNormalContext 0x4
+#define ArSystemArgument1 0x8
+#define ArSystemArgument2 0xc
+#define ArFlags 0x10
+#define KAPC_RECORD_LENGTH 0x18
+#define KAPC_RECORD_FLAGS_CHECK_ALERT 0x1
+
 
 //
 // Bug Check Code Definitions
@@ -192,6 +207,7 @@
 #define PS_MITIGATION_OPTION_MASK 0x3
 #define PS_MITIGATION_OPTION_RETURN_FLOW_GUARD 0x10
 #define PS_MITIGATION_OPTION_RESTRICT_SET_THREAD_CONTEXT 0x13
+#define PS_MITIGATION_OPTION_CET_USER_SHADOW_STACKS 0x1f
 
 //
 // User Shared Data Structure Offset Definitions
@@ -315,6 +331,7 @@
 #define FAST_FAIL_INVALID_CONTROL_STACK 0x2f
 #define FAST_FAIL_SET_CONTEXT_DENIED 0x30
 #define FAST_FAIL_ENCLAVE_CALL_FAILURE 0x35
+#define FAST_FAIL_FLAGS_CORRUPTION 0x3b
 
 //
 // APC Object Structure Offset Definitions
@@ -438,7 +455,7 @@
 #define PrUserTime 0x9c
 #define PrInstrumentationCallback 0xa4
 #define KernelProcessObjectLength 0xb0
-#define ExecutiveProcessObjectLength 0x400
+#define ExecutiveProcessObjectLength 0x500
 #define Win32BatchFlushCallout 0x7
 
 //
@@ -474,8 +491,8 @@
 // Thread Object Structure Offset Definitions
 //
 
-#define EtCid 0x374
-#define EtPicoContext 0x43c
+#define EtCid 0x37c
+#define EtPicoContext 0x444
 
 #define ThType 0x0
 #define ThSize 0x2
@@ -523,6 +540,7 @@
 #define KTHREAD_SYSTEM_THREAD_BIT 0xa
 #define KTHREAD_QUEUE_DEFER_PREEMPTION_BIT 0xb
 #define KTHREAD_BAM_QOS_LEVEL_MASK 0x3
+#define KTHREAD_CET_USER_SHADOW_STACK_BIT 0x14
 
 #define ThMiscFlags 0x4c
 #define ThThreadFlags 0x50
@@ -537,8 +555,8 @@
 #define ThWin32Thread 0x11c
 #define ThStackBase 0x28
 #define ThLegoData 0x1b8
-#define KernelThreadObjectLength 0x348
-#define ExecutiveThreadObjectLength 0x478
+#define KernelThreadObjectLength 0x350
+#define ExecutiveThreadObjectLength 0x480
 
 #define KF_VFP_32REG 0x10
 
@@ -589,7 +607,7 @@
 #define PeBeingDebugged 0x2
 #define PeProcessParameters 0x10
 #define PeKernelCallbackTable 0x2c
-#define ProcessEnvironmentBlockLength 0x470
+#define ProcessEnvironmentBlockLength 0x480
 
 //
 // Process Parameters Block Structure Offset Definitions
@@ -702,6 +720,8 @@
 #define PERF_INTERRUPT_FLAG 0x4000
 #define PERF_SYSCALL_OFFSET 0x8
 #define PERF_SYSCALL_FLAG 0x40
+#define PERF_SPEC_CONTROL_OFFSET 0x14
+#define PERF_SPEC_CONTROL_FLAG 0x2
 #define NTOS_YIELD_MACRO 0x1
 #define EtwTSLength 0x20
 
@@ -725,17 +745,6 @@
 #define KENTROPY_TIMING_INTERRUPTS_PER_BUFFER 0x400
 #define KENTROPY_TIMING_BUFFER_MASK 0x7ff
 #define KENTROPY_TIMING_ANALYSIS 0x0
-
-//
-// Apc Record Structure Offset Definitions
-//
-
-#define ArNormalRoutine 0x0
-#define ArNormalContext 0x4
-#define ArSystemArgument1 0x8
-#define ArSystemArgument2 0xc
-#define ApcRecordLength 0x10
-
 
 //
 // Special Register Structure Offset Definition
@@ -959,8 +968,8 @@
 #define PbPanicMiniStack 0xfd0
 #define PbCycleCounterHigh 0x970
 #define ThNpxState 0x85
-#define ThUserRoBase 0x440
-#define ThUserRwBase 0x444
+#define ThUserRoBase 0x448
+#define ThUserRwBase 0x44c
 
 //
 // KTHREAD state

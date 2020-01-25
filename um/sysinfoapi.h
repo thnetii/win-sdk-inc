@@ -121,6 +121,15 @@ GetLocalTime(
     );
 
 
+WINBASEAPI
+BOOL
+WINAPI
+GetSystemLeapSecondInformation(
+    _Out_ PBOOL Enabled,
+    _Out_ PDWORD Flags
+    );
+
+
 #endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_SYSTEM) */
 #pragma endregion
 
@@ -447,12 +456,6 @@ GetSystemTimePreciseAsFileTime(
 
 #endif // (_WIN32_WINNT >= _WIN32_WINNT_WIN8)
 
-#endif // WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_SYSTEM)
-#pragma endregion
-
-#pragma region Desktop Family or OneCore Family
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_SYSTEM)
-
 #if (_WIN32_WINNT >= _WIN32_WINNT_VISTA)
 
 WINBASEAPI
@@ -468,6 +471,12 @@ GetProductInfo(
 
 
 #endif // (_WIN32_WINNT >= _WIN32_WINNT_VISTA)
+
+#endif // WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_SYSTEM)
+#pragma endregion
+
+#pragma region Desktop Family or OneCore Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_SYSTEM)
 
 #if (NTDDI_VERSION >= NTDDI_WIN2K)
 

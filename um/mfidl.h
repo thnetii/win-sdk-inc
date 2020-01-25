@@ -879,6 +879,34 @@ typedef interface IMFSensorActivityMonitor IMFSensorActivityMonitor;
 #endif 	/* __IMFSensorActivityMonitor_FWD_DEFINED__ */
 
 
+#ifndef __IMFExtendedCameraIntrinsicModel_FWD_DEFINED__
+#define __IMFExtendedCameraIntrinsicModel_FWD_DEFINED__
+typedef interface IMFExtendedCameraIntrinsicModel IMFExtendedCameraIntrinsicModel;
+
+#endif 	/* __IMFExtendedCameraIntrinsicModel_FWD_DEFINED__ */
+
+
+#ifndef __IMFExtendedCameraIntrinsicsDistortionModel6KT_FWD_DEFINED__
+#define __IMFExtendedCameraIntrinsicsDistortionModel6KT_FWD_DEFINED__
+typedef interface IMFExtendedCameraIntrinsicsDistortionModel6KT IMFExtendedCameraIntrinsicsDistortionModel6KT;
+
+#endif 	/* __IMFExtendedCameraIntrinsicsDistortionModel6KT_FWD_DEFINED__ */
+
+
+#ifndef __IMFExtendedCameraIntrinsicsDistortionModelArcTan_FWD_DEFINED__
+#define __IMFExtendedCameraIntrinsicsDistortionModelArcTan_FWD_DEFINED__
+typedef interface IMFExtendedCameraIntrinsicsDistortionModelArcTan IMFExtendedCameraIntrinsicsDistortionModelArcTan;
+
+#endif 	/* __IMFExtendedCameraIntrinsicsDistortionModelArcTan_FWD_DEFINED__ */
+
+
+#ifndef __IMFExtendedCameraIntrinsics_FWD_DEFINED__
+#define __IMFExtendedCameraIntrinsics_FWD_DEFINED__
+typedef interface IMFExtendedCameraIntrinsics IMFExtendedCameraIntrinsics;
+
+#endif 	/* __IMFExtendedCameraIntrinsics_FWD_DEFINED__ */
+
+
 /* header files for imported files */
 #include "mfobjects.h"
 #include "mftransform.h"
@@ -921,8 +949,8 @@ typedef unsigned __int64 TOPOID;
 
 #endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
 #pragma endregion
-#pragma region Application Family
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP)
+#pragma region Application or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES)
 
 
 EXTERN_GUID( MF_WVC1_PROG_SINGLE_SLICE_CONTENT, 0x67EC2559, 0x0F2F, 0x4420, 0xA4, 0xDD, 0x2F, 0x8E, 0xE7, 0xA5, 0x73, 0x8B);
@@ -933,7 +961,9 @@ EXTERN_GUID( MF_USER_DATA_PAYLOAD,  0xd1d4985d, 0xdc92, 0x457a, 0xb3, 0xa0, 0x65
 EXTERN_GUID( MF_MPEG4SINK_SPSPPS_PASSTHROUGH, 0x5601a134, 0x2005, 0x4ad2, 0xb3, 0x7d, 0x22, 0xa6, 0xc5, 0x54, 0xde, 0xb2);
 EXTERN_GUID( MF_MPEG4SINK_MOOV_BEFORE_MDAT, 0xf672e3ac, 0xe1e6, 0x4f10, 0xb5, 0xec, 0x5f, 0x3b, 0x30, 0x82, 0x88, 0x16);
 EXTERN_GUID( MF_MPEG4SINK_MINIMUM_PROPERTIES_SIZE, 0xdca1ed52, 0x450e, 0x4a22, 0x8c, 0x62, 0x4e, 0xd4, 0x52, 0xf7, 0xa1, 0x87);
-#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP) */
+EXTERN_GUID(MF_MPEG4SINK_MIN_FRAGMENT_DURATION, 0xa30b570c, 0x8efd, 0x45e8, 0x94, 0xfe, 0x27, 0xc8, 0x4b, 0x5b, 0xdf, 0xf6);
+EXTERN_GUID(MF_MPEG4SINK_MAX_CODED_SEQUENCES_PER_FRAGMENT, 0xfc1b3bd6, 0x692d, 0x4ce5, 0x92, 0x99, 0x73, 0x8a, 0xa5, 0x46, 0x3e, 0x9a);
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES) */
 #pragma endregion
 #pragma region Desktop Family
 #if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
@@ -1173,8 +1203,8 @@ STDAPI MFCreatePMPMediaSession(
     );
 #endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_PC_APP) */
 #pragma endregion
-#pragma region Application Family
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP)
+#pragma region Application or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES)
 typedef 
 enum MF_OBJECT_TYPE
     {
@@ -1198,7 +1228,7 @@ enum __MIDL___MIDL_itf_mfidl_0000_0001_0001
         MF_RESOLUTION_READ	= 0x10000,
         MF_RESOLUTION_WRITE	= 0x20000
     } ;
-#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP) */
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES) */
 #pragma endregion
 #pragma region Desktop Family
 #if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
@@ -1224,8 +1254,8 @@ enum _MF_TOPOLOGY_RESOLUTION_STATUS_FLAGS
 
 #endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
 #pragma endregion
-#pragma region Application Family
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP)
+#pragma region Application or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES)
 
 
 extern RPC_IF_HANDLE __MIDL_itf_mfidl_0000_0001_v0_0_c_ifspec;
@@ -1503,10 +1533,10 @@ void __RPC_STUB IMFSourceResolver_RemoteEndCreateObjectFromByteStream_Stub(
 
 STDAPI MFCreateSourceResolver( 
         /* out */     _Outptr_ IMFSourceResolver     **ppISourceResolver);
-#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP) */
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES) */
 #pragma endregion
 #pragma region Desktop Family
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
 STDAPI CreatePropertyStore( 
         /* out */     _Outptr_ IPropertyStore        **ppStore);
 STDAPI MFGetSupportedSchemes(                      
@@ -1514,23 +1544,23 @@ STDAPI MFGetSupportedSchemes(
 STDAPI MFGetSupportedMimeTypes(                      
        _Out_ PROPVARIANT* pPropVarMimeTypeArray  );  
 EXTERN_C const DECLSPEC_SELECTANY PROPERTYKEY MFPKEY_SourceOpenMonitor = { { 0x074d4637, 0xb5ae, 0x465d, 0xaf, 0x17, 0x1a, 0x53, 0x8d, 0x28, 0x59, 0xdd}, 0x02 }; 
-#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES) */
 #pragma endregion
-#pragma region Application Family
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP)
+#pragma region Application or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES)
 EXTERN_C const DECLSPEC_SELECTANY PROPERTYKEY MFPKEY_ASFMediaSource_ApproxSeek = { { 0xb4cd270f, 0x244d, 0x4969, 0xbb, 0x92, 0x3f, 0x0f, 0xb8, 0x31, 0x6f, 0x10}, 0x01 }; 
-#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP) */
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES) */
 #pragma endregion
 #if (WINVER >= _WIN32_WINNT_WIN7) 
-#pragma region Application Family
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP)
+#pragma region Application or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES)
 EXTERN_C const DECLSPEC_SELECTANY PROPERTYKEY MFPKEY_ASFMediaSource_IterativeSeekIfNoIndex = { { 0x170b65dc, 0x4a4e, 0x407a, 0xac, 0x22, 0x57, 0x7f, 0x50, 0xe4, 0xa3, 0x7c }, 0x01 }; 
 EXTERN_C const DECLSPEC_SELECTANY PROPERTYKEY MFPKEY_ASFMediaSource_IterativeSeek_Max_Count = { { 0x170b65dc, 0x4a4e, 0x407a, 0xac, 0x22, 0x57, 0x7f, 0x50, 0xe4, 0xa3, 0x7c }, 0x02 }; 
 EXTERN_C const DECLSPEC_SELECTANY PROPERTYKEY MFPKEY_ASFMediaSource_IterativeSeek_Tolerance_In_MilliSecond = { { 0x170b65dc, 0x4a4e, 0x407a, 0xac, 0x22, 0x57, 0x7f, 0x50, 0xe4, 0xa3, 0x7c }, 0x03 }; 
 EXTERN_C const DECLSPEC_SELECTANY PROPERTYKEY MFPKEY_Content_DLNA_Profile_ID = { { 0xcfa31b45, 0x525d, 0x4998, 0xbb, 0x44, 0x3f, 0x7d, 0x81, 0x54, 0x2f, 0xa4 }, 0x01 }; 
 EXTERN_C const DECLSPEC_SELECTANY PROPERTYKEY MFPKEY_MediaSource_DisableReadAhead = { { 0x26366c14, 0xc5bf, 0x4c76, 0x88, 0x7b, 0x9f, 0x17, 0x54, 0xdb, 0x5f, 0x9}, 0x01 }; 
 EXTERN_C const DECLSPEC_SELECTANY PROPERTYKEY MFPKEY_SBESourceMode = { { 0x3fae10bb, 0xf859, 0x4192, 0xb5, 0x62, 0x18, 0x68, 0xd3, 0xda, 0x3a, 0x02}, 0x01 }; 
-#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP) */
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES) */
 #pragma endregion
 #endif // (WINVER >= _WIN32_WINNT_WIN7) 
 #if (WINVER >= _WIN32_WINNT_WIN8) 
@@ -1555,8 +1585,8 @@ EXTERN_C const DECLSPEC_SELECTANY PROPERTYKEY MFPKEY_HTTP_ByteStream_Download_Mo
 EXTERN_C const DECLSPEC_SELECTANY PROPERTYKEY MFPKEY_HTTP_ByteStream_Caching_Mode = { { 0x86a2403e, 0xc78b, 0x44d7, 0x8b, 0xc8, 0xff, 0x72, 0x58, 0x11, 0x75, 0x08}, 0x01 }; 
 EXTERN_C const DECLSPEC_SELECTANY PROPERTYKEY MFPKEY_HTTP_ByteStream_Cache_Limit = { { 0x86a2403e, 0xc78b, 0x44d7, 0x8b, 0xc8, 0xff, 0x72, 0x58, 0x11, 0x75, 0x08}, 0x02 }; 
 #endif // (WINVER >= _WIN32_WINNT_WINTHRESHOLD) 
-#pragma region Application Family
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP)
+#pragma region Application or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES)
 typedef 
 enum _MFMEDIASOURCE_CHARACTERISTICS
     {
@@ -1763,11 +1793,11 @@ void __RPC_STUB IMFMediaSource_RemoteCreatePresentationDescriptor_Stub(
 /* interface __MIDL_itf_mfidl_0000_0003 */
 /* [local] */ 
 
-#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP) */
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES) */
 #pragma endregion
 #if (WINVER >= _WIN32_WINNT_WIN8) 
-#pragma region Application Family
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP)
+#pragma region Application or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES)
 
 
 extern RPC_IF_HANDLE __MIDL_itf_mfidl_0000_0003_v0_0_c_ifspec;
@@ -1958,13 +1988,13 @@ EXTERN_C const IID IID_IMFMediaSourceEx;
 /* [local] */ 
 
 EXTERN_GUID( MF_SOURCE_STREAM_SUPPORTS_HW_CONNECTION, 0xa38253aa, 0x6314, 0x42fd, 0xa3, 0xce, 0xbb, 0x27, 0xb6, 0x85, 0x99, 0x46);
-#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP) */
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES) */
 #pragma endregion
 #endif // (WINVER >= _WIN32_WINNT_WIN8) 
 
 #if (WINVER >= _WIN32_WINNT_WINTHRESHOLD) 
-#pragma region Application Family
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP)
+#pragma region Application or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES)
 
 
 extern RPC_IF_HANDLE __MIDL_itf_mfidl_0000_0004_v0_0_c_ifspec;
@@ -2063,11 +2093,11 @@ EXTERN_C const IID IID_IMFClockConsumer;
 /* interface __MIDL_itf_mfidl_0000_0005 */
 /* [local] */ 
 
-#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP) */
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES) */
 #pragma endregion
 #endif // (WINVER >= _WIN32_WINNT_WINTHRESHOLD) 
-#pragma region Application Family
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP)
+#pragma region Application or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES)
 
 
 extern RPC_IF_HANDLE __MIDL_itf_mfidl_0000_0005_v0_0_c_ifspec;
@@ -3536,7 +3566,9 @@ typedef
 enum _MFVideoSphericalFormat
     {
         MFVideoSphericalFormat_Unsupported	= 0,
-        MFVideoSphericalFormat_Equirectangular	= 1
+        MFVideoSphericalFormat_Equirectangular	= 1,
+        MFVideoSphericalFormat_CubeMap	= 2,
+        MFVideoSphericalFormat_3DMesh	= 3
     } 	MFVideoSphericalFormat;
 
 #endif /* (WINVER >= _WIN32_WINNT_WIN10) */ 
@@ -3775,7 +3807,7 @@ EXTERN_C const IID IID_IMFVideoProcessorControl3;
 
 #endif /* (NTDDI_VERSION >= NTDDI_WIN10_RS3) */ 
 #endif // (WINVER >= _WIN32_WINNT_WINBLUE) 
-#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP) */
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES) */
 #pragma endregion
 #endif // (WINVER >= _WIN32_WINNT_WIN8) 
 #pragma region Desktop Family
@@ -4866,8 +4898,8 @@ STDAPI MFGetTopoNodeCurrentType(
 #endif // (WINVER >= _WIN32_WINNT_WIN7) 
 #endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
 #pragma endregion
-#pragma region Application Family
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP)
+#pragma region Application or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES)
 
 
 extern RPC_IF_HANDLE __MIDL_itf_mfidl_0000_0019_v0_0_c_ifspec;
@@ -5346,7 +5378,7 @@ EXTERN_C const IID IID_IMFPresentationClock;
 /* interface __MIDL_itf_mfidl_0000_0022 */
 /* [local] */ 
 
-#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP) */
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES) */
 #pragma endregion
 #pragma region PC Application Family
 #if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_PC_APP)
@@ -5355,8 +5387,8 @@ STDAPI MFCreatePresentationClock(
     );
 #endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_PC_APP) */
 #pragma endregion
-#pragma region Application Family
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP)
+#pragma region Application or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES)
 
 
 extern RPC_IF_HANDLE __MIDL_itf_mfidl_0000_0022_v0_0_c_ifspec;
@@ -5620,7 +5652,7 @@ EXTERN_C const IID IID_IMFClockStateSink;
 /* interface __MIDL_itf_mfidl_0000_0024 */
 /* [local] */ 
 
-#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP) */
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES) */
 #pragma endregion
 #pragma region Desktop Family
 #if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
@@ -5628,8 +5660,8 @@ EXTERN_GUID( MF_PD_PMPHOST_CONTEXT, 0x6c990d31, 0xbb8e, 0x477a, 0x85, 0x98, 0xd,
 EXTERN_GUID( MF_PD_APP_CONTEXT, 0x6c990d32, 0xbb8e, 0x477a, 0x85, 0x98, 0xd, 0x5d, 0x96, 0xfc, 0xd8, 0x8a );
 #endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
 #pragma endregion
-#pragma region Application Family
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP)
+#pragma region Application or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES)
 EXTERN_GUID( MF_PD_DURATION, 0x6c990d33, 0xbb8e, 0x477a, 0x85, 0x98, 0xd, 0x5d, 0x96, 0xfc, 0xd8, 0x8a );
 EXTERN_GUID( MF_PD_TOTAL_FILE_SIZE, 0x6c990d34, 0xbb8e, 0x477a, 0x85, 0x98, 0xd, 0x5d, 0x96, 0xfc, 0xd8, 0x8a );
 EXTERN_GUID( MF_PD_AUDIO_ENCODING_BITRATE, 0x6c990d35, 0xbb8e, 0x477a, 0x85, 0x98, 0xd, 0x5d, 0x96, 0xfc, 0xd8, 0x8a );
@@ -6026,10 +6058,10 @@ STDAPI MFCreatePresentationDescriptor(
     _Outptr_ IMFPresentationDescriptor** ppPresentationDescriptor
     );
 
-#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP) */
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES) */
 #pragma endregion
-#pragma region Desktop Family
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+#pragma region Desktop or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
 STDAPI MFRequireProtectedEnvironment(
      _In_ IMFPresentationDescriptor* pPresentationDescriptor
      );
@@ -6044,10 +6076,10 @@ STDAPI MFDeserializePresentationDescriptor(
     _In_reads_( cbData ) BYTE * pbData,
     _Outptr_ IMFPresentationDescriptor ** ppPD);
 
-#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES) */
 #pragma endregion
-#pragma region Application Family
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP)
+#pragma region Application or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES)
 EXTERN_GUID(MF_SD_LANGUAGE, 0xaf2180, 0xbdc2, 0x423c, 0xab, 0xca, 0xf5, 0x3, 0x59, 0x3b, 0xc1, 0x21);
 EXTERN_GUID(MF_SD_PROTECTED, 0xaf2181, 0xbdc2, 0x423c, 0xab, 0xca, 0xf5, 0x3, 0x59, 0x3b, 0xc1, 0x21);
 EXTERN_GUID(MF_SD_STREAM_NAME, 0x4f1b099d, 0xd314, 0x41e5, 0xa7, 0x81, 0x7f, 0xef, 0xaa, 0x4c, 0x50, 0x1f);
@@ -6603,7 +6635,7 @@ void __RPC_STUB IMFMediaTypeHandler_RemoteGetCurrentMediaType_Stub(
 /* interface __MIDL_itf_mfidl_0000_0027 */
 /* [local] */ 
 
-#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP) */
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES) */
 #pragma endregion
 #pragma region Desktop Family
 #if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
@@ -10643,7 +10675,7 @@ EXTERN_C const IID IID_IMFMediaSourcePresentationProvider;
 EXTERN_GUID( MF_SOURCE_PRESENTATION_PROVIDER_SERVICE, 0xe002aadc, 0xf4af, 0x4ee5, 0x98, 0x47, 0x05, 0x3e, 0xdf, 0x84, 0x04, 0x26 );
 #if defined(_MSC_VER) && (_MSC_VER >= 1600)
 #pragma warning(push)
-#pragma warning(disable:4820) // Disable C4820: padding after data member
+#pragma warning(disable:4820 4201) // Disable C4820: padding after data member, C4201: nonstandard extension used: nameless struct/union
 #endif
 typedef struct _MFTOPONODE_ATTRIBUTE_UPDATE
     {
@@ -15833,6 +15865,10 @@ enum _MF_TRANSCODE_ADJUST_PROFILE_FLAGS
 EXTERN_GUID( MF_TRANSCODE_ENCODINGPROFILE, 0x6947787c, 0xf508, 0x4ea9, 0xb1, 0xe9, 0xa1, 0xfe, 0x3a, 0x49, 0xfb, 0xc9 );
 EXTERN_GUID( MF_TRANSCODE_QUALITYVSSPEED, 0x98332df8, 0x03cd, 0x476b, 0x89, 0xfa, 0x3f, 0x9e, 0x44, 0x2d, 0xec, 0x9f );
 EXTERN_GUID( MF_TRANSCODE_DONOT_INSERT_ENCODER, 0xf45aa7ce, 0xab24, 0x4012, 0xa1, 0x1b, 0xdc, 0x82, 0x20, 0x20, 0x14, 0x10 );
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
+#pragma endregion
+#pragma region Application Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP)
 typedef 
 enum _MF_VIDEO_PROCESSOR_ALGORITHM_TYPE
     {
@@ -15844,6 +15880,12 @@ EXTERN_GUID( MF_VIDEO_PROCESSOR_ALGORITHM, 0x4a0a1e1f, 0x272c, 0x4fb6, 0x9e, 0xb
 EXTERN_GUID( MF_XVP_DISABLE_FRC, 0x2c0afa19, 0x7a97, 0x4d5a, 0x9e, 0xe8, 0x16, 0xd4, 0xfc, 0x51, 0x8d, 0x8c );
 #if (WINVER >= _WIN32_WINNT_WINBLUE) 
 EXTERN_GUID( MF_XVP_CALLER_ALLOCATES_OUTPUT, 0x4a2cabc, 0xcab, 0x40b1, 0xa1, 0xb9, 0x75, 0xbc, 0x36, 0x58, 0xf0, 0x0 );
+#endif // (WINVER >= _WIN32_WINNT_WINBLUE) 
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP) */
+#pragma endregion
+#pragma region Desktop Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+#if (WINVER >= _WIN32_WINNT_WINBLUE) 
 #if (WINVER < _WIN32_WINNT_WINTHRESHOLD) 
 EXTERN_GUID(CLSID_VideoProcessorMFT, 0x88753b26, 0x5b24, 0x49bd, 0xb2, 0xe7, 0xc, 0x44, 0x5c, 0x78, 0xc9, 0x82);
 #endif // (WINVER < _WIN32_WINNT_WINTHRESHOLD) 
@@ -16313,8 +16355,8 @@ EXTERN_C const IID IID_IMFCapturePhotoConfirmation;
 
 #endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
 #pragma endregion
-#pragma region Application Family
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP)
+#pragma region Application or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES)
 #if (WINVER >= _WIN32_WINNT_WIN8) 
 
 
@@ -16691,17 +16733,17 @@ EXTERN_C const IID IID_IMFTrackedSample;
 
 STDAPI MFCreateTrackedSample(
     _Outptr_ IMFTrackedSample** ppMFSample);
-#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP) */
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES) */
 #pragma endregion
-#pragma region Desktop Family
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+#pragma region Desktop or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
 STDAPI MFCreateMFByteStreamOnStream(
     IStream*        pStream,
     _Outptr_ IMFByteStream** ppByteStream);
 STDAPI MFCreateStreamOnMFByteStream(
     _In_ IMFByteStream* pByteStream,
     _Outptr_ IStream** ppStream);
-#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES) */
 #pragma endregion
 #pragma region Application Family
 #if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP)
@@ -18478,8 +18520,8 @@ EXTERN_C const IID IID_IMFMediaStream2;
 
 #endif // (WINVER >= _WIN32_WINNT_WINTHRESHOLD) 
 #if (WINVER >= _WIN32_WINNT_WINTHRESHOLD) 
-#pragma region Application Family
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP)
+#pragma region Application or Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES)
 EXTERN_GUID(MF_ST_MEDIASOURCE_COLLECTION, 0x616DE972, 0x83AD, 0x4950, 0x81, 0x70, 0x63, 0x0D, 0x19, 0xCB, 0xE3, 0x07);
 EXTERN_GUID(MF_DEVICESTREAM_FILTER_KSCONTROL, 0x46783CCA, 0x3DF5, 0x4923, 0xA9, 0xEF, 0x36, 0xB7, 0x22, 0x3E, 0xDD, 0xE0);
 EXTERN_GUID(MF_DEVICESTREAM_PIN_KSCONTROL, 0xEF3EF9A7, 0x87F2, 0x48CA, 0xBE, 0x02, 0x67, 0x48, 0x78, 0x91, 0x8E, 0x98);
@@ -19727,7 +19769,7 @@ STDAPI
 MFCreateSensorProfileCollection(
     _COM_Outptr_ IMFSensorProfileCollection** ppSensorProfile
     );
-#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP) */
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES) */
 #pragma endregion
 
 
@@ -20282,10 +20324,525 @@ MFCreateSensorActivityMonitor(
     _COM_Outptr_ IMFSensorActivityMonitor** ppActivityMonitor
     );
 #endif // (WINVER >= _WIN32_WINNT_WINTHRESHOLD) 
+#pragma region Application Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP)
+typedef struct _MFCameraIntrinsic_CameraModel
+    {
+    FLOAT FocalLength_x;
+    FLOAT FocalLength_y;
+    FLOAT PrincipalPoint_x;
+    FLOAT PrincipalPoint_y;
+    } 	MFCameraIntrinsic_CameraModel;
+
+typedef struct _MFCameraIntrinsic_DistortionModel6KT
+    {
+    FLOAT Radial_k1;
+    FLOAT Radial_k2;
+    FLOAT Radial_k3;
+    FLOAT Radial_k4;
+    FLOAT Radial_k5;
+    FLOAT Radial_k6;
+    FLOAT Tangential_p1;
+    FLOAT Tangential_p2;
+    } 	MFCameraIntrinsic_DistortionModel6KT;
+
+typedef struct _MFCameraIntrinsic_DistortionModelArcTan
+    {
+    FLOAT Radial_k0;
+    FLOAT DistortionCenter_x;
+    FLOAT DistortionCenter_y;
+    FLOAT Tangential_x;
+    FLOAT Tangential_y;
+    } 	MFCameraIntrinsic_DistortionModelArcTan;
+
+typedef 
+enum _MFCameraIntrinsic_DistortionModelType
+    {
+        MFCameraIntrinsic_DistortionModelType_6KT	= 0,
+        MFCameraIntrinsic_DistortionModelType_ArcTan	= ( MFCameraIntrinsic_DistortionModelType_6KT + 1 ) 
+    } 	MFCameraIntrinsic_DistortionModelType;
+
+typedef struct _MFExtendedCameraIntrinsic_IntrinsicModel
+    {
+    UINT32 Width;
+    UINT32 Height;
+    UINT32 SplitFrameId;
+    MFCameraIntrinsic_CameraModel CameraModel;
+    } 	MFExtendedCameraIntrinsic_IntrinsicModel;
+
 
 
 extern RPC_IF_HANDLE __MIDL_itf_mfidl_0000_0120_v0_0_c_ifspec;
 extern RPC_IF_HANDLE __MIDL_itf_mfidl_0000_0120_v0_0_s_ifspec;
+
+#ifndef __IMFExtendedCameraIntrinsicModel_INTERFACE_DEFINED__
+#define __IMFExtendedCameraIntrinsicModel_INTERFACE_DEFINED__
+
+/* interface IMFExtendedCameraIntrinsicModel */
+/* [local][uuid][object] */ 
+
+
+EXTERN_C const IID IID_IMFExtendedCameraIntrinsicModel;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+    
+    MIDL_INTERFACE("5C595E64-4630-4231-855A-12842F733245")
+    IMFExtendedCameraIntrinsicModel : public IUnknown
+    {
+    public:
+        virtual HRESULT STDMETHODCALLTYPE GetModel( 
+            /* [annotation][out] */ 
+            _Out_  MFExtendedCameraIntrinsic_IntrinsicModel *pIntrinsicModel) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE SetModel( 
+            /* [annotation][in] */ 
+            _In_  const MFExtendedCameraIntrinsic_IntrinsicModel *pIntrinsicModel) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE GetDistortionModelType( 
+            /* [annotation][out] */ 
+            _Out_  MFCameraIntrinsic_DistortionModelType *pDistortionModelType) = 0;
+        
+    };
+    
+    
+#else 	/* C style interface */
+
+    typedef struct IMFExtendedCameraIntrinsicModelVtbl
+    {
+        BEGIN_INTERFACE
+        
+        HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
+            IMFExtendedCameraIntrinsicModel * This,
+            /* [in] */ REFIID riid,
+            /* [annotation][iid_is][out] */ 
+            _COM_Outptr_  void **ppvObject);
+        
+        ULONG ( STDMETHODCALLTYPE *AddRef )( 
+            IMFExtendedCameraIntrinsicModel * This);
+        
+        ULONG ( STDMETHODCALLTYPE *Release )( 
+            IMFExtendedCameraIntrinsicModel * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetModel )( 
+            IMFExtendedCameraIntrinsicModel * This,
+            /* [annotation][out] */ 
+            _Out_  MFExtendedCameraIntrinsic_IntrinsicModel *pIntrinsicModel);
+        
+        HRESULT ( STDMETHODCALLTYPE *SetModel )( 
+            IMFExtendedCameraIntrinsicModel * This,
+            /* [annotation][in] */ 
+            _In_  const MFExtendedCameraIntrinsic_IntrinsicModel *pIntrinsicModel);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetDistortionModelType )( 
+            IMFExtendedCameraIntrinsicModel * This,
+            /* [annotation][out] */ 
+            _Out_  MFCameraIntrinsic_DistortionModelType *pDistortionModelType);
+        
+        END_INTERFACE
+    } IMFExtendedCameraIntrinsicModelVtbl;
+
+    interface IMFExtendedCameraIntrinsicModel
+    {
+        CONST_VTBL struct IMFExtendedCameraIntrinsicModelVtbl *lpVtbl;
+    };
+
+    
+
+#ifdef COBJMACROS
+
+
+#define IMFExtendedCameraIntrinsicModel_QueryInterface(This,riid,ppvObject)	\
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+
+#define IMFExtendedCameraIntrinsicModel_AddRef(This)	\
+    ( (This)->lpVtbl -> AddRef(This) ) 
+
+#define IMFExtendedCameraIntrinsicModel_Release(This)	\
+    ( (This)->lpVtbl -> Release(This) ) 
+
+
+#define IMFExtendedCameraIntrinsicModel_GetModel(This,pIntrinsicModel)	\
+    ( (This)->lpVtbl -> GetModel(This,pIntrinsicModel) ) 
+
+#define IMFExtendedCameraIntrinsicModel_SetModel(This,pIntrinsicModel)	\
+    ( (This)->lpVtbl -> SetModel(This,pIntrinsicModel) ) 
+
+#define IMFExtendedCameraIntrinsicModel_GetDistortionModelType(This,pDistortionModelType)	\
+    ( (This)->lpVtbl -> GetDistortionModelType(This,pDistortionModelType) ) 
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+
+
+#endif 	/* __IMFExtendedCameraIntrinsicModel_INTERFACE_DEFINED__ */
+
+
+#ifndef __IMFExtendedCameraIntrinsicsDistortionModel6KT_INTERFACE_DEFINED__
+#define __IMFExtendedCameraIntrinsicsDistortionModel6KT_INTERFACE_DEFINED__
+
+/* interface IMFExtendedCameraIntrinsicsDistortionModel6KT */
+/* [local][uuid][object] */ 
+
+
+EXTERN_C const IID IID_IMFExtendedCameraIntrinsicsDistortionModel6KT;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+    
+    MIDL_INTERFACE("74C2653B-5F55-4EB1-9F0F-18B8F68B7D3D")
+    IMFExtendedCameraIntrinsicsDistortionModel6KT : public IUnknown
+    {
+    public:
+        virtual HRESULT STDMETHODCALLTYPE GetDistortionModel( 
+            /* [annotation][out] */ 
+            _Out_  MFCameraIntrinsic_DistortionModel6KT *pDistortionModel) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE SetDistortionModel( 
+            /* [annotation][in] */ 
+            _In_  const MFCameraIntrinsic_DistortionModel6KT *pDistortionModel) = 0;
+        
+    };
+    
+    
+#else 	/* C style interface */
+
+    typedef struct IMFExtendedCameraIntrinsicsDistortionModel6KTVtbl
+    {
+        BEGIN_INTERFACE
+        
+        HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
+            IMFExtendedCameraIntrinsicsDistortionModel6KT * This,
+            /* [in] */ REFIID riid,
+            /* [annotation][iid_is][out] */ 
+            _COM_Outptr_  void **ppvObject);
+        
+        ULONG ( STDMETHODCALLTYPE *AddRef )( 
+            IMFExtendedCameraIntrinsicsDistortionModel6KT * This);
+        
+        ULONG ( STDMETHODCALLTYPE *Release )( 
+            IMFExtendedCameraIntrinsicsDistortionModel6KT * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetDistortionModel )( 
+            IMFExtendedCameraIntrinsicsDistortionModel6KT * This,
+            /* [annotation][out] */ 
+            _Out_  MFCameraIntrinsic_DistortionModel6KT *pDistortionModel);
+        
+        HRESULT ( STDMETHODCALLTYPE *SetDistortionModel )( 
+            IMFExtendedCameraIntrinsicsDistortionModel6KT * This,
+            /* [annotation][in] */ 
+            _In_  const MFCameraIntrinsic_DistortionModel6KT *pDistortionModel);
+        
+        END_INTERFACE
+    } IMFExtendedCameraIntrinsicsDistortionModel6KTVtbl;
+
+    interface IMFExtendedCameraIntrinsicsDistortionModel6KT
+    {
+        CONST_VTBL struct IMFExtendedCameraIntrinsicsDistortionModel6KTVtbl *lpVtbl;
+    };
+
+    
+
+#ifdef COBJMACROS
+
+
+#define IMFExtendedCameraIntrinsicsDistortionModel6KT_QueryInterface(This,riid,ppvObject)	\
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+
+#define IMFExtendedCameraIntrinsicsDistortionModel6KT_AddRef(This)	\
+    ( (This)->lpVtbl -> AddRef(This) ) 
+
+#define IMFExtendedCameraIntrinsicsDistortionModel6KT_Release(This)	\
+    ( (This)->lpVtbl -> Release(This) ) 
+
+
+#define IMFExtendedCameraIntrinsicsDistortionModel6KT_GetDistortionModel(This,pDistortionModel)	\
+    ( (This)->lpVtbl -> GetDistortionModel(This,pDistortionModel) ) 
+
+#define IMFExtendedCameraIntrinsicsDistortionModel6KT_SetDistortionModel(This,pDistortionModel)	\
+    ( (This)->lpVtbl -> SetDistortionModel(This,pDistortionModel) ) 
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+
+
+#endif 	/* __IMFExtendedCameraIntrinsicsDistortionModel6KT_INTERFACE_DEFINED__ */
+
+
+#ifndef __IMFExtendedCameraIntrinsicsDistortionModelArcTan_INTERFACE_DEFINED__
+#define __IMFExtendedCameraIntrinsicsDistortionModelArcTan_INTERFACE_DEFINED__
+
+/* interface IMFExtendedCameraIntrinsicsDistortionModelArcTan */
+/* [local][uuid][object] */ 
+
+
+EXTERN_C const IID IID_IMFExtendedCameraIntrinsicsDistortionModelArcTan;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+    
+    MIDL_INTERFACE("812D5F95-B572-45DC-BAFC-AE24199DDDA8")
+    IMFExtendedCameraIntrinsicsDistortionModelArcTan : public IUnknown
+    {
+    public:
+        virtual HRESULT STDMETHODCALLTYPE GetDistortionModel( 
+            /* [annotation][out] */ 
+            _Out_  MFCameraIntrinsic_DistortionModelArcTan *pDistortionModel) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE SetDistortionModel( 
+            /* [annotation][in] */ 
+            _In_  const MFCameraIntrinsic_DistortionModelArcTan *pDistortionModel) = 0;
+        
+    };
+    
+    
+#else 	/* C style interface */
+
+    typedef struct IMFExtendedCameraIntrinsicsDistortionModelArcTanVtbl
+    {
+        BEGIN_INTERFACE
+        
+        HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
+            IMFExtendedCameraIntrinsicsDistortionModelArcTan * This,
+            /* [in] */ REFIID riid,
+            /* [annotation][iid_is][out] */ 
+            _COM_Outptr_  void **ppvObject);
+        
+        ULONG ( STDMETHODCALLTYPE *AddRef )( 
+            IMFExtendedCameraIntrinsicsDistortionModelArcTan * This);
+        
+        ULONG ( STDMETHODCALLTYPE *Release )( 
+            IMFExtendedCameraIntrinsicsDistortionModelArcTan * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetDistortionModel )( 
+            IMFExtendedCameraIntrinsicsDistortionModelArcTan * This,
+            /* [annotation][out] */ 
+            _Out_  MFCameraIntrinsic_DistortionModelArcTan *pDistortionModel);
+        
+        HRESULT ( STDMETHODCALLTYPE *SetDistortionModel )( 
+            IMFExtendedCameraIntrinsicsDistortionModelArcTan * This,
+            /* [annotation][in] */ 
+            _In_  const MFCameraIntrinsic_DistortionModelArcTan *pDistortionModel);
+        
+        END_INTERFACE
+    } IMFExtendedCameraIntrinsicsDistortionModelArcTanVtbl;
+
+    interface IMFExtendedCameraIntrinsicsDistortionModelArcTan
+    {
+        CONST_VTBL struct IMFExtendedCameraIntrinsicsDistortionModelArcTanVtbl *lpVtbl;
+    };
+
+    
+
+#ifdef COBJMACROS
+
+
+#define IMFExtendedCameraIntrinsicsDistortionModelArcTan_QueryInterface(This,riid,ppvObject)	\
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+
+#define IMFExtendedCameraIntrinsicsDistortionModelArcTan_AddRef(This)	\
+    ( (This)->lpVtbl -> AddRef(This) ) 
+
+#define IMFExtendedCameraIntrinsicsDistortionModelArcTan_Release(This)	\
+    ( (This)->lpVtbl -> Release(This) ) 
+
+
+#define IMFExtendedCameraIntrinsicsDistortionModelArcTan_GetDistortionModel(This,pDistortionModel)	\
+    ( (This)->lpVtbl -> GetDistortionModel(This,pDistortionModel) ) 
+
+#define IMFExtendedCameraIntrinsicsDistortionModelArcTan_SetDistortionModel(This,pDistortionModel)	\
+    ( (This)->lpVtbl -> SetDistortionModel(This,pDistortionModel) ) 
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+
+
+#endif 	/* __IMFExtendedCameraIntrinsicsDistortionModelArcTan_INTERFACE_DEFINED__ */
+
+
+#ifndef __IMFExtendedCameraIntrinsics_INTERFACE_DEFINED__
+#define __IMFExtendedCameraIntrinsics_INTERFACE_DEFINED__
+
+/* interface IMFExtendedCameraIntrinsics */
+/* [local][uuid][object] */ 
+
+
+EXTERN_C const IID IID_IMFExtendedCameraIntrinsics;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+    
+    MIDL_INTERFACE("687F6DAC-6987-4750-A16A-734D1E7A10FE")
+    IMFExtendedCameraIntrinsics : public IUnknown
+    {
+    public:
+        virtual HRESULT STDMETHODCALLTYPE InitializeFromBuffer( 
+            /* [annotation][size_is][in] */ 
+            _In_reads_bytes_(dwBufferSize)  BYTE *pbBuffer,
+            /* [in] */ DWORD dwBufferSize) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE GetBufferSize( 
+            /* [annotation][out] */ 
+            _Out_  DWORD *pdwBufferSize) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE SerializeToBuffer( 
+            /* [annotation][out] */ 
+            _Out_writes_bytes_to_(*pdwBufferSize, *pdwBufferSize)  BYTE *pbBuffer,
+            /* [annotation][out] */ 
+            _Inout_  DWORD *pdwBufferSize) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE GetIntrinsicModelCount( 
+            /* [annotation][out] */ 
+            _Out_  DWORD *pdwCount) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE GetIntrinsicModelByIndex( 
+            /* [in] */ DWORD dwIndex,
+            /* [annotation][out] */ 
+            _COM_Outptr_  IMFExtendedCameraIntrinsicModel **ppIntrinsicModel) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE AddIntrinsicModel( 
+            /* [annotation][in] */ 
+            _In_  IMFExtendedCameraIntrinsicModel *pIntrinsicModel) = 0;
+        
+    };
+    
+    
+#else 	/* C style interface */
+
+    typedef struct IMFExtendedCameraIntrinsicsVtbl
+    {
+        BEGIN_INTERFACE
+        
+        HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
+            IMFExtendedCameraIntrinsics * This,
+            /* [in] */ REFIID riid,
+            /* [annotation][iid_is][out] */ 
+            _COM_Outptr_  void **ppvObject);
+        
+        ULONG ( STDMETHODCALLTYPE *AddRef )( 
+            IMFExtendedCameraIntrinsics * This);
+        
+        ULONG ( STDMETHODCALLTYPE *Release )( 
+            IMFExtendedCameraIntrinsics * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *InitializeFromBuffer )( 
+            IMFExtendedCameraIntrinsics * This,
+            /* [annotation][size_is][in] */ 
+            _In_reads_bytes_(dwBufferSize)  BYTE *pbBuffer,
+            /* [in] */ DWORD dwBufferSize);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetBufferSize )( 
+            IMFExtendedCameraIntrinsics * This,
+            /* [annotation][out] */ 
+            _Out_  DWORD *pdwBufferSize);
+        
+        HRESULT ( STDMETHODCALLTYPE *SerializeToBuffer )( 
+            IMFExtendedCameraIntrinsics * This,
+            /* [annotation][out] */ 
+            _Out_writes_bytes_to_(*pdwBufferSize, *pdwBufferSize)  BYTE *pbBuffer,
+            /* [annotation][out] */ 
+            _Inout_  DWORD *pdwBufferSize);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetIntrinsicModelCount )( 
+            IMFExtendedCameraIntrinsics * This,
+            /* [annotation][out] */ 
+            _Out_  DWORD *pdwCount);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetIntrinsicModelByIndex )( 
+            IMFExtendedCameraIntrinsics * This,
+            /* [in] */ DWORD dwIndex,
+            /* [annotation][out] */ 
+            _COM_Outptr_  IMFExtendedCameraIntrinsicModel **ppIntrinsicModel);
+        
+        HRESULT ( STDMETHODCALLTYPE *AddIntrinsicModel )( 
+            IMFExtendedCameraIntrinsics * This,
+            /* [annotation][in] */ 
+            _In_  IMFExtendedCameraIntrinsicModel *pIntrinsicModel);
+        
+        END_INTERFACE
+    } IMFExtendedCameraIntrinsicsVtbl;
+
+    interface IMFExtendedCameraIntrinsics
+    {
+        CONST_VTBL struct IMFExtendedCameraIntrinsicsVtbl *lpVtbl;
+    };
+
+    
+
+#ifdef COBJMACROS
+
+
+#define IMFExtendedCameraIntrinsics_QueryInterface(This,riid,ppvObject)	\
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+
+#define IMFExtendedCameraIntrinsics_AddRef(This)	\
+    ( (This)->lpVtbl -> AddRef(This) ) 
+
+#define IMFExtendedCameraIntrinsics_Release(This)	\
+    ( (This)->lpVtbl -> Release(This) ) 
+
+
+#define IMFExtendedCameraIntrinsics_InitializeFromBuffer(This,pbBuffer,dwBufferSize)	\
+    ( (This)->lpVtbl -> InitializeFromBuffer(This,pbBuffer,dwBufferSize) ) 
+
+#define IMFExtendedCameraIntrinsics_GetBufferSize(This,pdwBufferSize)	\
+    ( (This)->lpVtbl -> GetBufferSize(This,pdwBufferSize) ) 
+
+#define IMFExtendedCameraIntrinsics_SerializeToBuffer(This,pbBuffer,pdwBufferSize)	\
+    ( (This)->lpVtbl -> SerializeToBuffer(This,pbBuffer,pdwBufferSize) ) 
+
+#define IMFExtendedCameraIntrinsics_GetIntrinsicModelCount(This,pdwCount)	\
+    ( (This)->lpVtbl -> GetIntrinsicModelCount(This,pdwCount) ) 
+
+#define IMFExtendedCameraIntrinsics_GetIntrinsicModelByIndex(This,dwIndex,ppIntrinsicModel)	\
+    ( (This)->lpVtbl -> GetIntrinsicModelByIndex(This,dwIndex,ppIntrinsicModel) ) 
+
+#define IMFExtendedCameraIntrinsics_AddIntrinsicModel(This,pIntrinsicModel)	\
+    ( (This)->lpVtbl -> AddIntrinsicModel(This,pIntrinsicModel) ) 
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+
+
+#endif 	/* __IMFExtendedCameraIntrinsics_INTERFACE_DEFINED__ */
+
+
+/* interface __MIDL_itf_mfidl_0000_0124 */
+/* [local] */ 
+
+DEFINE_GUID(MFStreamExtension_ExtendedCameraIntrinsics,
+    0xaa74b3df, 0x9a2c, 0x48d6, 0x83, 0x93, 0x5b, 0xd1, 0xc1, 0xa8, 0x1e, 0x6e);
+DEFINE_GUID(MFSampleExtension_ExtendedCameraIntrinsics,
+    0x560bc4a5, 0x4de0, 0x4113, 0x9c, 0xdc, 0x83, 0x2d, 0xb9, 0x74, 0xf, 0x3d);
+#if (NTDDI_VERSION >= NTDDI_WIN10_RS5) 
+STDAPI
+MFCreateExtendedCameraIntrinsics(
+    _COM_Outptr_ IMFExtendedCameraIntrinsics** ppExtendedCameraIntrinsics
+    );
+STDAPI
+MFCreateExtendedCameraIntrinsicModel(
+    const MFCameraIntrinsic_DistortionModelType distortionModelType,
+    _COM_Outptr_ IMFExtendedCameraIntrinsicModel** ppExtendedCameraIntrinsicModel
+    );
+#endif // (NTDDI_VERSION >= NTDDI_WIN10_RS5) 
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP) */
+#pragma endregion 
+
+
+extern RPC_IF_HANDLE __MIDL_itf_mfidl_0000_0124_v0_0_c_ifspec;
+extern RPC_IF_HANDLE __MIDL_itf_mfidl_0000_0124_v0_0_s_ifspec;
 
 /* Additional Prototypes for ALL interfaces */
 

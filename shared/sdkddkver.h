@@ -149,8 +149,10 @@ Abstract:
 #define NTDDI_WIN10_RS2                     0x0A000003  /* ABRACADABRA_WIN10_RS2 */
 #define NTDDI_WIN10_RS3                     0x0A000004  /* ABRACADABRA_WIN10_RS3 */
 #define NTDDI_WIN10_RS4                     0x0A000005  /* ABRACADABRA_WIN10_RS4 */
+#define NTDDI_WIN10_RS5                     0x0A000006  /* ABRACADABRA_WIN10_RS5 */
+#define NTDDI_WIN10_19H1                    0x0A000007  /* ABRACADABRA_WIN10_19H1*/
 
-#define WDK_NTDDI_VERSION                   NTDDI_WIN10_RS4 /* ABRACADABRA_WIN10_RS4 */
+#define WDK_NTDDI_VERSION                   NTDDI_WIN10_19H1 /* ABRACADABRA_WIN10_19H1 */
 
 
 //
@@ -226,7 +228,7 @@ Abstract:
 #endif // (_WIN32_WINNT <= _WIN32_WINNT_WINBLUE)
 #else
 // set NTDDI_VERSION to default to latest if _WIN32_WINNT isn't set
-#define NTDDI_VERSION   0x0A000005
+#define NTDDI_VERSION   0x0A000007
 #endif // _WIN32_WINNT
 #endif // NTDDI_VERSION
 

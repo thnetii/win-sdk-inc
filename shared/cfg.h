@@ -44,7 +44,7 @@ Revision History:
 //      CM_Uninstall_DevNode
 //      CM_Query_And_Remove_SubTree
 //
-typedef enum    _PNP_VETO_TYPE {
+typedef enum _PNP_VETO_TYPE {
     PNP_VetoTypeUnknown,            // Name is unspecified
     PNP_VetoLegacyDevice,           // Name is an Instance Path
     PNP_VetoPendingClose,           // Name is an Instance Path
@@ -57,8 +57,9 @@ typedef enum    _PNP_VETO_TYPE {
     PNP_VetoInsufficientPower,      // Name is unspecified
     PNP_VetoNonDisableable,         // Name is an Instance Path
     PNP_VetoLegacyDriver,           // Name is a Service
-    PNP_VetoInsufficientRights      // Name is unspecified
-}   PNP_VETO_TYPE, *PPNP_VETO_TYPE;
+    PNP_VetoInsufficientRights,     // Name is unspecified
+    PNP_VetoAlreadyRemoved,         // Name is unspecified
+} PNP_VETO_TYPE, *PPNP_VETO_TYPE;
 
 
 //
@@ -280,6 +281,25 @@ typedef enum    _PNP_VETO_TYPE {
 #define LCPRI_DISABLED        (0x0000FFFF) // Disabled configuration
 #define MAX_LCPRI             (0x0000FFFF) // Maximum known LC Priority
 
+//
+// Device panel sides
+//
+#define CM_DEVICE_PANEL_SIDE_UNKNOWN    (0x00000000)
+#define CM_DEVICE_PANEL_SIDE_TOP        (0x00000001)
+#define CM_DEVICE_PANEL_SIDE_BOTTOM     (0x00000002)
+#define CM_DEVICE_PANEL_SIDE_LEFT       (0x00000003)
+#define CM_DEVICE_PANEL_SIDE_RIGHT      (0x00000004)
+#define CM_DEVICE_PANEL_SIDE_FRONT      (0x00000005)
+#define CM_DEVICE_PANEL_SIDE_BACK       (0x00000006)
+
+//
+// Device panel edges
+//
+#define CM_DEVICE_PANEL_EDGE_UNKNOWN    (0x00000000)
+#define CM_DEVICE_PANEL_EDGE_TOP        (0x00000001)
+#define CM_DEVICE_PANEL_EDGE_BOTTOM     (0x00000002)
+#define CM_DEVICE_PANEL_EDGE_LEFT       (0x00000003)
+#define CM_DEVICE_PANEL_EDGE_RIGHT      (0x00000004)
 
 #endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_SYSTEM) */
 #pragma endregion

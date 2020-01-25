@@ -104,6 +104,7 @@ extern "C" {
 #define SIPAEVENTTYPE_ELAM                              (0x00090000)
 #define SIPAEVENTTYPE_VBS                               (0x000A0000)
 #define SIPAEVENTTYPE_KSR                               (0x000B0000)
+#define SIPAEVENTTYPE_DRTM                              (0x000C0000)
 
 //SIPAEVENTTYPE_CONTAINER
 #define SIPAEVENT_TRUSTBOUNDARY            (SIPAEVENTTYPE_AGGREGATION + \
@@ -252,6 +253,18 @@ extern "C" {
                                             0x0013)
 
 //
+// Describes the SMT (simultaneous multithreading or HyperThreading) status.
+// The potential values are as follows:
+//
+// 0 - SMT is disabled in firmware, or not supported by the platform.
+// 1 - SMT is enabled.
+// 2 - SMT is enabled in firmware, but disabled in software.
+//
+
+#define SIPAEVENT_SMT_STATUS               (SIPAEVENTTYPE_OSPARAMETER + \
+                                           0x0014)
+
+//
 // Describes the VSM/SMART identity decryption public key.
 //
 #define SIPAEVENT_VSM_IDK_INFO             (SIPAEVENTTYPE_OSPARAMETER + \
@@ -314,6 +327,18 @@ extern "C" {
                                              0x0028)
 
 // #endif
+
+#if NTDDI_VERSION >= NTDDI_WIN10_RS5
+
+//
+// This event contains certain details of the active Secure Boot Custom Policy (SBCP).
+// The data portion for this event is an instance of SIPAEVENT_SBCP_INFO_PAYLOAD_V* 
+// structure.
+//
+#define SIPAEVENT_SBCP_INFO                 (SIPAEVENTTYPE_OSPARAMETER + \
+                                             0x0029)
+
+#endif
 
 //SIPAEVENTTYPE_AUHTORITY
 #define SIPAEVENT_NOAUTHORITY              (SIPAEVENTTYPE_AUTHORITY + \
@@ -405,6 +430,23 @@ extern "C" {
 
 #endif // NTDDI_VERSION >= NTDDI_WIN10_RS3
 
+#if NTDDI_VERSION >= NTDDI_WIN10_RS5
+
+//
+// SIPAEVENTTYPE_DRTM.
+//
+// This event is measured to PCR[20] during DRTM by TcbLaunch.exe.
+//
+// The payload for this event is an instance of TPM_API_PA_DIRECT_AUTHORIZATION_1
+// containing a signature over a TPM policy matching the system state at the time
+// of launching TcbLaunch.exe. A typical TPM policy for validating DRTM state
+// contains a combination of the MLE measurement in PCR 18, a state of PCR[22] and
+// a proper value for the DRTM SVN.
+//
+#define SIPAEVENT_DRTM_STATE_AUTH           (SIPAEVENTTYPE_DRTM + \
+                                            0x001)
+
+#endif // NTDDI_VERSION >= NTDDI_WIN10_RS5
 
 //
 #endif
@@ -457,6 +499,9 @@ typedef UINT16 WBCL_DIGEST_ALG_ID;
 #define WBCL_DIGEST_ALG_ID_SHA_2_384        0x000C
 #define WBCL_DIGEST_ALG_ID_SHA_2_512        0x000D
 #define WBCL_DIGEST_ALG_ID_SM3_256          0x0012
+#define WBCL_DIGEST_ALG_ID_SHA3_256         0x0027
+#define WBCL_DIGEST_ALG_ID_SHA3_384         0x0028
+#define WBCL_DIGEST_ALG_ID_SHA3_512         0x0029
 
 //
 // These values are aligned with the TPM 2.0 algorithm bitmap
@@ -466,6 +511,9 @@ typedef UINT16 WBCL_DIGEST_ALG_ID;
 #define WBCL_DIGEST_ALG_BITMAP_SHA_2_384    0x00000004
 #define WBCL_DIGEST_ALG_BITMAP_SHA_2_512    0x00000008
 #define WBCL_DIGEST_ALG_BITMAP_SM3_256      0x00000010
+#define WBCL_DIGEST_ALG_BITMAP_SHA3_256     0x00000020
+#define WBCL_DIGEST_ALG_BITMAP_SHA3_384     0x00000040
+#define WBCL_DIGEST_ALG_BITMAP_SHA3_512     0x00000080
 
 //
 // An iterator object for WBCL log.
@@ -712,6 +760,59 @@ typedef struct tag_SIPAEVENT_KSR_SIGNATURE_PAYLOAD
 } SIPAEVENT_KSR_SIGNATURE_PAYLOAD, *PSIPAEVENT_KSR_SIGNATURE_PAYLOAD;
 
 #endif // NTDDI_VERSION >= NTDDI_WIN10_RS3
+
+#if NTDDI_VERSION >= NTDDI_WIN10_RS5
+
+//
+// Payload structure used to carry information about SBCP.
+//
+typedef struct tag_SIPAEVENT_SBCP_INFO_PAYLOAD_V1
+{
+    //
+    // Version of this structure. 
+    // For SIPAEVENT_SBCP_INFO_PAYLOAD_V1 this value is going to be set to 1.
+    //
+    UINT32 PayloadVersion;
+
+    //
+    // Offset in bytes from the start of this structure to the first byte
+    // of VarData.
+    //
+    UINT32 VarDataOffset;
+
+    //
+    // Indicates hash algorithm ID used to produce SBCP hash digest.
+    // Contains one of the TPM_ALG_ID values, typically the TPM_ALG_SHA256.
+    //
+    UINT16  HashAlgID;
+
+    //
+    // Indicates the hash digest length (in bytes). Digest is stored as part of VarData.
+    //
+    _Field_range_(1, 64)
+    UINT16  DigestLength;
+
+    //
+    // Contains the OptionFlags value from the SBCP descriptor.
+    //
+    UINT32  Options;
+
+    //
+    // Contains the SignersCount value for the SBCP.
+    // 
+    UINT32  SignersCount;
+
+    //
+    // VarData layout is:
+    //
+    // BYTE Digest[DigestLength]
+    //
+    _Field_size_bytes_(DigestLength)
+    BYTE    VarData[ANYSIZE_ARRAY];
+
+} SIPAEVENT_SBCP_INFO_PAYLOAD_V1, *PSIPAEVENT_SBCP_INFO_PAYLOAD_V1;
+
+#endif // NTDDI_VERSION >= NTDDI_WIN10_RS5
 
 #pragma pack(pop)
 

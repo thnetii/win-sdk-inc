@@ -3060,6 +3060,7 @@ LsaLookupSids(
     );
 
 NTSTATUS
+NTAPI
 LsaLookupSids2(
     _In_ LSA_HANDLE PolicyHandle,
     _In_ ULONG LookupOptions,
@@ -4070,6 +4071,12 @@ RtlGenRandom(
 
 #define RTL_ENCRYPT_OPTION_SAME_LOGON       0x02
 
+//
+// Allow callers to encrypt information to be decrypted only by a system process
+//
+
+#define RTL_ENCRYPT_OPTION_FOR_SYSTEM       0x04
+
 NTSTATUS
 __stdcall
 RtlEncryptMemory(
@@ -4578,6 +4585,9 @@ typedef enum _KERB_PROTOCOL_MESSAGE_TYPE {
     KerbQueryDomainExtendedPoliciesMessage,
     KerbQueryS4U2ProxyCacheMessage,
 #endif
+#if (_WIN32_WINNT >= 0x0A00)
+    KerbRetrieveKeyTabMessage,
+#endif
 } KERB_PROTOCOL_MESSAGE_TYPE, *PKERB_PROTOCOL_MESSAGE_TYPE;
 
 
@@ -4906,6 +4916,26 @@ typedef struct _KERB_QUERY_S4U2PROXY_CACHE_RESPONSE
     ULONG                       CountOfCreds;
     PKERB_S4U2PROXY_CRED        Creds;
 } KERB_QUERY_S4U2PROXY_CACHE_RESPONSE, *PKERB_QUERY_S4U2PROXY_CACHE_RESPONSE;
+
+#endif
+
+#if (_WIN32_WINNT >= 0x0A00)
+
+typedef struct _KERB_RETRIEVE_KEY_TAB_REQUEST
+{
+    KERB_PROTOCOL_MESSAGE_TYPE  MessageType;
+    ULONG                       Flags;
+    UNICODE_STRING              UserName;
+    UNICODE_STRING              DomainName;
+    UNICODE_STRING              Password;
+} KERB_RETRIEVE_KEY_TAB_REQUEST, *PKERB_RETRIEVE_KEY_TAB_REQUEST;
+
+typedef struct _KERB_RETRIEVE_KEY_TAB_RESPONSE
+{
+    KERB_PROTOCOL_MESSAGE_TYPE  MessageType;
+    ULONG                       KeyTabLength;
+    PUCHAR                      KeyTab;
+} KERB_RETRIEVE_KEY_TAB_RESPONSE, *PKERB_RETRIEVE_KEY_TAB_RESPONSE;
 
 #endif
 

@@ -136,6 +136,53 @@ PowerSettingUnregisterNotification(
 
 #endif
 
+#if NTDDI_VERSION >= NTDDI_WIN10_RS5
+
+typedef enum EFFECTIVE_POWER_MODE {
+    EffectivePowerModeBatterySaver,
+    EffectivePowerModeBetterBattery,
+    EffectivePowerModeBalanced,
+    EffectivePowerModeHighPerformance,
+    EffectivePowerModeMaxPerformance, // v1 last supported
+    EffectivePowerModeGameMode,
+    EffectivePowerModeMixedReality, // v2 last supported
+} EFFECTIVE_POWER_MODE;
+
+#define EFFECTIVE_POWER_MODE_V1 (0x00000001)
+#define EFFECTIVE_POWER_MODE_V2 (0x00000002)
+
+typedef _Function_class_(EFFECTIVE_POWER_MODE_CALLBACK)
+VOID
+WINAPI
+EFFECTIVE_POWER_MODE_CALLBACK (
+    _In_ EFFECTIVE_POWER_MODE Mode,
+    _In_opt_ VOID *Context
+    );
+
+#endif
+
+#if NTDDI_VERSION >= NTDDI_WIN10_RS5
+_Must_inspect_result_
+HRESULT
+WINAPI
+PowerRegisterForEffectivePowerModeNotifications(
+    _In_ ULONG Version,
+    _In_ EFFECTIVE_POWER_MODE_CALLBACK* Callback,
+    _In_opt_ VOID* Context,
+    _Outptr_ VOID** RegistrationHandle
+    );
+
+#endif
+
+#if NTDDI_VERSION >= NTDDI_WIN10_RS5
+HRESULT
+WINAPI
+PowerUnregisterFromEffectivePowerModeNotifications(
+    _In_ VOID* RegistrationHandle
+    );
+
+#endif
+
 #endif // WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_SYSTEM)
 #pragma endregion
 

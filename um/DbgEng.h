@@ -1962,6 +1962,8 @@ typedef struct _DEBUG_CREATE_PROCESS_OPTIONS
 #define DEBUG_OUTPUT_SYMBOLS           0x00000200
 // Output which modifies the status bar
 #define DEBUG_OUTPUT_STATUS            0x00000400
+// Structured XML status messages
+#define DEBUG_OUTPUT_XML               0x00000800
 
 // Internal debugger output, used mainly
 // for debugging the debugger.  Output
@@ -2419,6 +2421,7 @@ DECLARE_INTERFACE_(IDebugClient, IUnknown)
 #define DEBUG_FORMAT_USER_SMALL_ADD_AVX_XSTATE_CONTEXT    0x00020000
 #define DEBUG_FORMAT_USER_SMALL_IPT_TRACE                 0x00040000
 #define DEBUG_FORMAT_USER_SMALL_IGNORE_INACCESSIBLE_MEM   0x08000000
+#define DEBUG_FORMAT_USER_SMALL_SCAN_PARTIAL_PAGES        0x10000000
 
 
 //
@@ -6723,6 +6726,7 @@ typedef struct _STACK_SYM_FRAME_INFO
 #define DEBUG_KERNEL_EXDI_DRIVER    2
 #define DEBUG_KERNEL_IDNA           3
 #define DEBUG_KERNEL_INSTALL_DRIVER 4
+#define DEBUG_KERNEL_REPT           5
 
 #define DEBUG_KERNEL_SMALL_DUMP  DEBUG_DUMP_SMALL
 #define DEBUG_KERNEL_DUMP        DEBUG_DUMP_DEFAULT

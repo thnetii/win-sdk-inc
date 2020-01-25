@@ -48,7 +48,22 @@
 #define AsApcListHead 0x0
 #define AsProcess 0x20
 #define AsKernelApcPending 0x29
-#define AsUserApcPending 0x2a
+#define AsUserApcPendingAll 0x2a
+#define KAPC_STATE_ANY_USER_APC_PENDING_MASK 0x3
+
+
+//
+// Apc Record Structure Offset Definitions
+//
+
+#define ArNormalRoutine 0x0
+#define ArNormalContext 0x8
+#define ArSystemArgument1 0x10
+#define ArSystemArgument2 0x18
+#define ArFlags 0x20
+#define KAPC_RECORD_LENGTH 0x30
+#define KAPC_RECORD_FLAGS_CHECK_ALERT 0x1
+
 
 //
 // Bug Check Code Definitions
@@ -192,6 +207,7 @@
 #define PS_MITIGATION_OPTION_MASK 0x3
 #define PS_MITIGATION_OPTION_RETURN_FLOW_GUARD 0x10
 #define PS_MITIGATION_OPTION_RESTRICT_SET_THREAD_CONTEXT 0x13
+#define PS_MITIGATION_OPTION_CET_USER_SHADOW_STACKS 0x1f
 
 //
 // User Shared Data Structure Offset Definitions
@@ -315,6 +331,7 @@
 #define FAST_FAIL_INVALID_CONTROL_STACK 0x2f
 #define FAST_FAIL_SET_CONTEXT_DENIED 0x30
 #define FAST_FAIL_ENCLAVE_CALL_FAILURE 0x35
+#define FAST_FAIL_FLAGS_CORRUPTION 0x3b
 
 //
 // APC Object Structure Offset Definitions
@@ -430,14 +447,14 @@
 #define PrSwapListEntry 0x110
 #define PrActiveProcessors 0x118
 #define PrProcessFlags 0x1c0
-#define PrBasePriority 0x1c4
-#define PrQuantumReset 0x1c5
-#define PrCycleTime 0x258
-#define PrKernelTime 0x274
-#define PrUserTime 0x278
-#define PrInstrumentationCallback 0x280
-#define KernelProcessObjectLength 0x290
-#define ExecutiveProcessObjectLength 0x7f8
+#define PrBasePriority 0x1c8
+#define PrQuantumReset 0x1c9
+#define PrCycleTime 0x260
+#define PrKernelTime 0x27c
+#define PrUserTime 0x280
+#define PrInstrumentationCallback 0x288
+#define KernelProcessObjectLength 0x298
+#define ExecutiveProcessObjectLength 0x980
 #define Win32BatchFlushCallout 0x7
 
 //
@@ -473,8 +490,8 @@
 // Thread Object Structure Offset Definitions
 //
 
-#define EtCid 0x658
-#define EtPicoContext 0x7c0
+#define EtCid 0x668
+#define EtPicoContext 0x7c8
 
 #define ThType 0x0
 #define ThSize 0x2
@@ -522,6 +539,7 @@
 #define KTHREAD_SYSTEM_THREAD_BIT 0xa
 #define KTHREAD_QUEUE_DEFER_PREEMPTION_BIT 0xb
 #define KTHREAD_BAM_QOS_LEVEL_MASK 0x3
+#define KTHREAD_CET_USER_SHADOW_STACK_BIT 0x14
 
 #define ThMiscFlags 0x6c
 #define ThThreadFlags 0x70
@@ -536,8 +554,8 @@
 #define ThWin32Thread 0x1c0
 #define ThStackBase 0x38
 #define ThLegoData 0x2f0
-#define KernelThreadObjectLength 0x610
-#define ExecutiveThreadObjectLength 0x830
+#define KernelThreadObjectLength 0x620
+#define ExecutiveThreadObjectLength 0x838
 
 
 //
@@ -587,7 +605,7 @@
 #define PeBeingDebugged 0x2
 #define PeProcessParameters 0x20
 #define PeKernelCallbackTable 0x58
-#define ProcessEnvironmentBlockLength 0x7b8
+#define ProcessEnvironmentBlockLength 0x7c8
 
 //
 // Process Parameters Block Structure Offset Definitions
@@ -634,6 +652,7 @@
 #define TeInstrumentationCallbackSp 0x2d0
 #define TeInstrumentationCallbackPreviousPc 0x2d8
 #define TeInstrumentationCallbackPreviousSp 0x2e0
+#define TeUnalignedLoadStoreExceptions 0x2ed
 #define TeGdiClientPID 0x7f0
 #define TeGdiClientTID 0x7f4
 #define TeGdiThreadLocalInfo 0x7f8
@@ -701,6 +720,8 @@
 #define PERF_INTERRUPT_FLAG 0x4000
 #define PERF_SYSCALL_OFFSET 0x8
 #define PERF_SYSCALL_FLAG 0x40
+#define PERF_SPEC_CONTROL_OFFSET 0x14
+#define PERF_SPEC_CONTROL_FLAG 0x2
 #define NTOS_YIELD_MACRO 0x1
 #define EtwTSLength 0x20
 
@@ -725,17 +746,6 @@
 #define KENTROPY_TIMING_BUFFER_MASK 0x7ff
 #define KENTROPY_TIMING_ANALYSIS 0x0
 #define PERF_SYSCALL_FLAG_BIT 0x6
-
-//
-// Apc Record Structure Offset Definitions
-//
-
-#define ArNormalRoutine 0x0
-#define ArNormalContext 0x8
-#define ArSystemArgument1 0x10
-#define ArSystemArgument2 0x18
-#define ApcRecordLength 0x20
-
 
 //
 // Special Register Structure Offset Definition
@@ -779,24 +789,39 @@
 // Processor Control Region Structure Offset Definitions
 //
 
+#define PCR_BTI_MITIGATION_NONE 0x0
+#define PCR_BTI_MITIGATION_TRAP_HVC 0x1
+#define PCR_BTI_MITIGATION_TRAP_SMC 0x2
+#define PCR_BTI_MITIGATION_CSWAP_HVC 0x4
+#define PCR_BTI_MITIGATION_CSWAP_SMC 0x8
+#define PCR_BTI_MITIGATION_TRAP_HVC_BIT 0x0
+#define PCR_BTI_MITIGATION_TRAP_SMC_BIT 0x1
+#define PCR_BTI_MITIGATION_CSWAP_HVC_BIT 0x2
+#define PCR_BTI_MITIGATION_CSWAP_SMC_BIT 0x3
+#define ARM64_ASID_KVA_SHADOW 0x8000
+#define PSCI_FUNCTION_CODE_SMCCC_ARCH_WORKAROUND_1 0x80008000
 #define PcSelf 0x18
 #define PcLockArray 0x28
 #define PcCurrentIrql 0x38
 #define PcTeb 0x30
 #define PcStallScaleFactor 0x40
+#define PcBtiMitigation 0x4c
 #define PcPanicStorage 0x50
 #define PcHalReserved 0x88
 #define PcPrcb 0x980
+#define PcKvaUserModeTtbr1 0xf8
 #define PcIdleHalt 0x982
 #define PcCurrentThread 0x988
 #define PcNextThread 0x990
 #define PcIdleThread 0x998
 #define PcNestingLevel 0x9a0
 #define PcNumber 0x9a4
+#define PcGroup 0x10e8
 #define PcPrcbLock 0x9a8
 #define PcGroupSetMember 0x10e0
 #define PcFeatureBits 0x1214
 #define PcVirtualApicAssist 0x2018
+#define PcTrappedSecurityDomain 0x14a8
 #define TlThread 0x0
 #define TlCpuNumber 0x8
 #define TlTrapType 0x9
@@ -1119,9 +1144,10 @@
 #define ARM64_HCR_EL2_FMO 0x0000000000000008
 #define ARM64_HCR_EL2_IMO 0x0000000000000010
 #define ARM64_HCR_EL2_AMO 0x0000000000000020
-#define ARM64_HCR_EL2_RW 0x0000000080000000
-#define ARM64_HCR_EL2_TGE 0x0000000008000000
 #define ARM64_HCR_EL2_TID3 0x0000000000040000
+#define ARM64_HCR_EL2_TSC 0x0000000000080000
+#define ARM64_HCR_EL2_TGE 0x0000000008000000
+#define ARM64_HCR_EL2_RW 0x0000000080000000
 #define ARM64_ACTLR_EL1 0x4081
 #define ARM64_ACTLR_EL2 0x6081
 #define ARM64_CPACR_EL1 0x4082
@@ -1214,6 +1240,7 @@
 #define ARM64_PMCNTENSET_EL0 0x5ce1
 #define ARM64_PMCNTENCLR_EL0 0x5ce2
 #define ARM64_PMCNTEN_PMCCNT 0x80000000
+#define ARM64_PMOVSSET_EL0 0x5cf3
 #define ARM64_PMOVSCLR_EL0 0x5ce3
 #define ARM64_PMSWINC_EL0 0x5ce4
 #define ARM64_PMSELR_EL0 0x5ce5
@@ -1338,6 +1365,15 @@
 #define ARM64_DBGPRCR_EL1 0xa4
 
 //
+// Counter-Timer Control Registers
+//
+
+#define ARM64_CNT_HCTL_EL2 0x6708
+#define ARM64_CNT_HCTL_EL1PCTEN 0x0000000000000001
+#define ARM64_CNT_HCTL_EL1PCEN 0x0000000000000002
+#define ARM64_CNTV_OFF_EL2 0x6703
+
+//
 // Interrupt Controller Registers
 //
 
@@ -1456,6 +1492,14 @@
 
 #define KEXCEPTION_FRAME_LENGTH 0x60
 #define EXCEPTION_RECORD_LENGTH 0xa0
+
+#define Enable_Feature_DTrace 0x1
+
+//
+// Kernel Dynamic Tracing flags
+//
+
+#define KI_DYNAMIC_TRACE_SYSCALL_FLAG_BIT 0x0
 
 
 //
@@ -1621,6 +1665,7 @@
 
 #define ARM64_ID_AA64MMFR0_EL1 0x4038
 #define ARM64_ID_AA64PFR0_EL1 0x4020
+#define PF_ARM_V81_ATOMIC_INSTRUCTIONS_AVAILABLE 0x22
 
 //
 // Processor State Frame Offset Definitions
@@ -1663,7 +1708,8 @@
 // EPROCESS
 //
 
-#define EpDebugPort 0x3c8
+#define EpDebugPort 0x3d8
+#define EpSecurityDomain 0x920
 
 //
 // KeFeatureBits defines

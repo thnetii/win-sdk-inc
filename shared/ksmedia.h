@@ -1007,6 +1007,16 @@ typedef enum {
 DEFINE_DEVPROPKEY(DEVPKEY_KsAudio_PacketSize_Constraints, 0x13e004d6, 0xb066, 0x43bd, 0x91, 0x3b, 0xa4, 0x15, 0xcd, 0x13, 0xda, 0x87, 2);     // DEVPROP_TYPE_BINARY
 #endif
 
+#if (NTDDI_VERSION >= NTDDI_WIN10_RS5)
+#ifdef DEFINE_DEVPROPKEY
+// {13E004D6-B066-43BD-913B-A415CD13DA87},3
+// This property is the symbolic link to an interface of type 'GUID_KSCATEGORY_AUDIO_CONTROLLER_INTERFACE' published
+// by the KS Filter or miniport drivers on the KSCATEGORY_AUDIO interface to indicate the audio system about the 'controller'
+// device interface symbolic link that will provide extended information about this audio endpoint
+DEFINE_DEVPROPKEY(DEVPKEY_KsAudio_Controller_DeviceInterface_Path, 0x13e004d6, 0xb066, 0x43bd, 0x91, 0x3b, 0xa4, 0x15, 0xcd, 0x13, 0xda, 0x87, 3); // DEVPROP_TYPE_STRING
+#endif // DEFINE_DEVPROPKEY
+#endif // (NTDDI_VERSION >= NTDDI_WIN10_RS5)
+
 typedef struct _KSAUDIO_PACKETSIZE_SIGNALPROCESSINGMODE_CONSTRAINT
 {
     GUID    ProcessingMode;
@@ -1425,7 +1435,10 @@ typedef enum {
     KSPROPERTY_RTAUDIO_PACKETCOUNT,
     KSPROPERTY_RTAUDIO_PRESENTATION_POSITION,
     KSPROPERTY_RTAUDIO_GETREADPACKET,
-    KSPROPERTY_RTAUDIO_SETWRITEPACKET
+    KSPROPERTY_RTAUDIO_SETWRITEPACKET,
+#endif
+#if (NTDDI_VERSION >= NTDDI_WIN10_RS5)
+    KSPROPERTY_RTAUDIO_PACKETVREGISTER,
 #endif
 } KSPROPERTY_RTAUDIO;
 
@@ -1526,6 +1539,19 @@ typedef struct {
 } KSRTAUDIO_SETWRITEPACKET_INFO, *PKSRTAUDIO_SETWRITEPACKET_INFO;
 #endif
 
+#if (NTDDI_VERSION >= NTDDI_WIN10_RS5)
+typedef struct {
+    KSPROPERTY  Property;
+    PVOID       BaseAddress;
+} KSRTAUDIO_PACKETVREGISTER_PROPERTY, *PKSRTAUDIO_PACKETVREGISTER_PROPERTY;
+
+typedef struct {
+    PULONG64    CompletedPacketCount;
+    PULONG64    CompletedPacketQPC;
+    PULONG64    CompletedPacketHash;
+} KSRTAUDIO_PACKETVREGISTER, *PKSRTAUDIO_PACKETVREGISTER;
+#endif
+
 #if (NTDDI_VERSION >= NTDDI_WIN7)
 //===========================================================================
 
@@ -1554,18 +1580,55 @@ typedef enum {
 
 #endif // (NTDDI_VERSION >= NTDDI_WINXP)
 
-//#if (NTDDI_VERSION >= NTDDI_WINTHRESHOLD)
+#if (NTDDI_VERSION >= NTDDI_WINTHRESHOLD)
 //===========================================================================
 #define STATIC_KSPROPSETID_SoundDetector\
     0x113c425e, 0xfd17, 0x4057, 0xb4, 0x22, 0xed, 0x40, 0x74, 0xf1, 0xaf, 0xdf
 DEFINE_GUIDSTRUCT("113C425E-FD17-4057-B422-ED4074F1AFDF", KSPROPSETID_SoundDetector);
 #define KSPROPSETID_SoundDetector DEFINE_GUIDNAMED(KSPROPSETID_SoundDetector)
 
+#if (NTDDI_VERSION >= NTDDI_WIN10_19H1)
+#define STATIC_KSPROPSETID_SoundDetector2\
+    0xfe07e322, 0x450c, 0x4bd5, 0x84, 0xca, 0xa9, 0x48, 0x50, 0xe, 0xa6, 0xaa
+DEFINE_GUIDSTRUCT("FE07E322-450C-4BD5-84CA-A948500EA6AA", KSPROPSETID_SoundDetector2);
+#define KSPROPSETID_SoundDetector2 DEFINE_GUIDNAMED(KSPROPSETID_SoundDetector2)
+
+#define STATIC_KSPROPSETID_InterleavedAudio\
+    0xe9ebe550, 0xd619, 0x4c0a, 0x97, 0x6b, 0x70, 0x62, 0x32, 0x2b, 0x30, 0x6
+DEFINE_GUIDSTRUCT("E9EBE550-D619-4C0A-976B-7062322B3006", KSPROPSETID_InterleavedAudio);
+#define KSPROPSETID_InterleavedAudio DEFINE_GUIDNAMED(KSPROPSETID_InterleavedAudio)
+
+typedef enum {
+    KSPROPERTY_INTERLEAVEDAUDIO_FORMATINFORMATION = 1,
+} KSPROPERTY_INTERLEAVEDAUDIO;
+
+typedef struct {
+    ULONG Size;
+    DWORD PrimaryChannelCount;
+    DWORD PrimaryChannelStartPosition;
+    DWORD PrimaryChannelMask;
+    DWORD InterleavedChannelCount;
+    DWORD InterleavedChannelStartPosition;
+    DWORD InterleavedChannelMask;
+} INTERLEAVED_AUDIO_FORMAT_INFORMATION;
+
+typedef struct {
+    KSPROPERTY  Property;
+    GUID        EventId;
+} KSSOUNDDETECTORPROPERTY, *PKSSOUNDDETECTORPROPERTY;
+
+#endif // (NTDDI_VERSION >= NTDDI_WIN10_19H1)
+
+
 typedef enum {
     KSPROPERTY_SOUNDDETECTOR_SUPPORTEDPATTERNS = 1,
     KSPROPERTY_SOUNDDETECTOR_PATTERNS,
     KSPROPERTY_SOUNDDETECTOR_ARMED,
     KSPROPERTY_SOUNDDETECTOR_MATCHRESULT,
+#if (NTDDI_VERSION >= NTDDI_WIN10_19H1)
+    KSPROPERTY_SOUNDDETECTOR_RESET,
+    KSPROPERTY_SOUNDDETECTOR_STREAMINGSUPPORT,
+#endif // (NTDDI_VERSION >= NTDDI_WIN10_19H1)
 } KSPROPERTY_SOUNDDETECTOR;
 
 typedef struct {
@@ -1581,7 +1644,15 @@ DEFINE_GUIDSTRUCT("69785C9B-FC2D-49D6-AC32-4799F87DE9F6", KSEVENTSETID_SoundDete
 typedef enum {
     KSEVENT_SOUNDDETECTOR_MATCHDETECTED = 1,
 } KSEVENT_SOUNDDETECTOR;
-//#endif // (NTDDI_VERSION >= NTDDI_WINTHRESHOLD)
+#endif // (NTDDI_VERSION >= NTDDI_WINTHRESHOLD)
+
+#if (NTDDI_VERSION >= NTDDI_WIN10_19H1)
+// The payload of this notification is a SOUNDDETECTOR_DETECTIONHEADER
+#define STATIC_KSNOTIFICATIONID_SoundDetector\
+    0x6389d844, 0xbb32, 0x4c4c, 0xa8, 0x2, 0xf4, 0xb4, 0xb7, 0x7a, 0xfe, 0xad
+DEFINE_GUIDSTRUCT("6389D844-BB32-4C4C-A802-F4B4B77AFEAD", KSNOTIFICATIONID_SoundDetector);
+#define KSNOTIFICATIONID_SoundDetector DEFINE_GUIDNAMED(KSNOTIFICATIONID_SoundDetector)
+#endif // (NTDDI_VERSION >= NTDDI_WIN10_19H1)
 
 //===========================================================================
 #define STATIC_KSPROPSETID_Audio\
@@ -1828,7 +1899,6 @@ typedef struct {
     LARGE_INTEGER       TimeStamp2;
 } KSAUDIO_POSITIONEX, *PKSAUDIO_POSITIONEX;
 #endif // (NTDDI_VERSION >= NTDDI_VISTA)
-
 
 #if (NTDDI_VERSION >= NTDDI_WINTHRESHOLD)
 
@@ -3906,12 +3976,12 @@ typedef struct tag_KS_TRUECOLORINFO {
 #endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
 #pragma endregion
 
-#pragma region Application Family
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP)
+#pragma region Application and Games Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES)
 
 typedef LONGLONG REFERENCE_TIME;
 
-#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP) */
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES) */
 #pragma endregion
 
 #pragma region Desktop Family
@@ -5607,7 +5677,6 @@ typedef enum {
 
 } KSPROPERTY_VIDCAP_CAMERACONTROL;
 
-
 #if (NTDDI_VERSION >= NTDDI_WIN8)
 typedef enum {
     KS_CAMERACONTROL_ASYNC_START  = 0x0001,
@@ -5777,7 +5846,6 @@ typedef struct {
 
 #endif
 
-
 #if (NTDDI_VERSION >= NTDDI_WIN8)
 typedef enum {
     KSPROPERTY_CAMERACONTROL_EXTENDED_PHOTOMODE,                            // 0
@@ -5830,6 +5898,10 @@ typedef enum {
 #if (NTDDI_VERSION >= NTDDI_WIN10_RS3)
     KSPROPERTY_CAMERACONTROL_EXTENDED_VIDEOTEMPORALDENOISING,               // 37
 #endif // (NTDDI_VERSION >= NTDDI_WIN10_RS3)
+
+#if (NTDDI_VERSION >= NTDDI_WIN10_RS5)  //TODO: NTDDI_WIN10_19H1 
+    KSPROPERTY_CAMERACONTROL_EXTENDED_IRTORCHMODE,                          // 38
+#endif // (NTDDI_VERSION >= NTDDI_WIN10_19H1)
 
     KSPROPERTY_CAMERACONTROL_EXTENDED_END,                                  // All new controls must be before this!
     KSPROPERTY_CAMERACONTROL_EXTENDED_END2 = KSPROPERTY_CAMERACONTROL_EXTENDED_END
@@ -6408,6 +6480,10 @@ typedef struct {
 #define KSCAMERA_EXTENDEDPROP_VIDEOTEMPORALDENOISING_AUTO       0x0000000000000001
 #define KSCAMERA_EXTENDEDPROP_VIDEOTEMPORALDENOISING_OFF        0x0000000000000002 
 #define KSCAMERA_EXTENDEDPROP_VIDEOTEMPORALDENOISING_ON         0x0000000000000004
+
+#define KSCAMERA_EXTENDEDPROP_IRTORCHMODE_OFF                               0x0000000000000001
+#define KSCAMERA_EXTENDEDPROP_IRTORCHMODE_ALWAYS_ON                         0x0000000000000002
+#define KSCAMERA_EXTENDEDPROP_IRTORCHMODE_ALTERNATING_FRAME_ILLUMINATION    0x0000000000000004
 
 typedef struct _KSCAMERA_EXTENDEDPROP_PROFILE
 {
@@ -7130,7 +7206,6 @@ typedef struct {
         NULL,\
         NULL, 0, NULL, NULL, 0)
 
-  
 //===========================================================================
 #define STATIC_PROPSETID_VIDCAP_VIDEOCONTROL\
     0x6a2e0670L, 0x28e4, 0x11d0, 0xa1, 0x8c, 0x00, 0xa0, 0xc9, 0x11, 0x89, 0x56
@@ -7911,7 +7986,6 @@ DEFINE_GUIDSTRUCT("C166523C-FE0C-4A94-A586-F1A80CFBBF3E", AUDIOENDPOINT_CLASS_UU
 
 #endif // (NTDDI_VERSION >= NTDDI_WIN10_RS1)
 
-
 #if (NTDDI_VERSION >= NTDDI_WINTHRESHOLD)
 
 // Communications mode specifies that the application expects VoIP specific signal processing at the lowest latency and the hardware preferred sample rate for wideband speech (such as 16 kHz).
@@ -8068,6 +8142,7 @@ typedef struct _KSAUDIOMODULE_NOTIFICATION {
 } KSAUDIOMODULE_NOTIFICATION, *PKSAUDIOMODULE_NOTIFICATION;
 
 #endif // (NTDDI_VERSION >= NTDDI_WIN10_RS2)
+
 
 #endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
 #pragma endregion

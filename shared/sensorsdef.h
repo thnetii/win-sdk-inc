@@ -106,6 +106,8 @@ DEFINE_GUID(GUID_SensorType_RelativeOrientation, 0x40993b51, 0x4706, 0x44dc, 0x9
 DEFINE_GUID(GUID_SensorType_SimpleDeviceOrientation, 0X86A19291, 0X0482, 0X402C, 0XBF, 0X4C, 0XAD, 0XDA, 0XC5, 0X2B, 0X1C, 0X39);
 // {04FD0EC4-D5DA-45FA-95A9-5DB38EE19306}
 DEFINE_GUID(GUID_SensorType_Temperature, 0X04FD0EC4, 0XD5DA, 0X45FA, 0X95, 0XA9, 0X5D, 0XB3, 0X8E, 0XE1, 0X93, 0X06);
+// {82358065-F4C4-4DA1-B272-13C23332A207}
+DEFINE_GUID(GUID_SensorType_HingeAngle, 0x82358065, 0xf4c4, 0x4da1, 0xb2, 0x72, 0x13, 0xc2, 0x33, 0x32, 0xa2, 0x7);
 
 
 ////////////////////////////////////////////////////////////////////
@@ -158,7 +160,6 @@ DEFINE_PROPERTYKEY(PKEY_Sensor_FifoMaxSize_Samples,
 DEFINE_PROPERTYKEY(PKEY_Sensor_WakeCapable,
     0xd4247382, 0x969d, 0x4f24, 0xbb, 0x14, 0xfb, 0x96, 0x71, 0x87, 0xb, 0xbf, 29); //[VT_BOOL]
 
-
 // Light Sensor Property (30-39)
 DEFINE_PROPERTYKEY(PKEY_LightSensor_ResponseCurve,
     0xd4247382, 0x969d, 0x4f24, 0xbb, 0x14, 0xfb, 0x96, 0x71, 0x87, 0xb, 0xbf, 30); //[VT_VECTOR | VT_UI4]
@@ -166,6 +167,8 @@ DEFINE_PROPERTYKEY(DEVPKEY_LightSensor_AutoBrightnessPreferred,
     0xd4247382, 0x969d, 0x4f24, 0xbb, 0x14, 0xfb, 0x96, 0x71, 0x87, 0xb, 0xbf, 31); //[VT_BOOL]
 DEFINE_PROPERTYKEY(DEVPKEY_LightSensor_ColorCapable,
     0xd4247382, 0x969d, 0x4f24, 0xbb, 0x14, 0xfb, 0x96, 0x71, 0x87, 0xb, 0xbf, 32); //[VT_BOOL]
+DEFINE_PROPERTYKEY(DEVPKEY_LightSensor_AdaptiveColorPreferred,
+    0xd4247382, 0x969d, 0x4f24, 0xbb, 0x14, 0xfb, 0x96, 0x71, 0x87, 0xb, 0xbf, 33); //[VT_BOOL]
 
 // Orientation Sensor Property (40-49)
 DEFINE_PROPERTYKEY(PKEY_OrientationSensor_GyroscopeUsed,
@@ -390,6 +393,10 @@ DEFINE_PROPERTYKEY(PKEY_SensorData_VerticalSpeed_MetersPerSecond,
     0xc458f8a7, 0x4ae8, 0x4777, 0x96, 0x7, 0x2e, 0x9b, 0xdd, 0x65, 0x11, 0xa, 205); //[VT_R4]
 DEFINE_PROPERTYKEY(PKEY_SensorData_ElevationChangeFloorCount,
     0xc458f8a7, 0x4ae8, 0x4777, 0x96, 0x7, 0x2e, 0x9b, 0xdd, 0x65, 0x11, 0xa, 206); //[VT_UI4]
+
+// Hinge Angle Sensor Data Fields
+DEFINE_PROPERTYKEY(PKEY_SensorData_HingeAngle,
+    0xc458f8a7, 0x4ae8, 0x4777, 0x96, 0x7, 0x2e, 0x9b, 0xdd, 0x65, 0x11, 0xa, 300); //[VT_R4]
 
 #endif //__midl
 

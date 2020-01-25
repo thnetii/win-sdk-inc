@@ -81,12 +81,13 @@ typedef enum _DOT11_PHY_TYPE {
     dot11_phy_type_fhss = 1,
     dot11_phy_type_dsss = 2,
     dot11_phy_type_irbaseband = 3,
-    dot11_phy_type_ofdm = 4,
-    dot11_phy_type_hrdsss = 5,
-    dot11_phy_type_erp = 6,
-    dot11_phy_type_ht = 7,
-    dot11_phy_type_vht = 8,
-    dot11_phy_type_dmg = 9,
+    dot11_phy_type_ofdm = 4,                    // 11a
+    dot11_phy_type_hrdsss = 5,                  // 11b
+    dot11_phy_type_erp = 6,                     // 11g
+    dot11_phy_type_ht = 7,                      // 11n
+    dot11_phy_type_vht = 8,                     // 11ac
+    dot11_phy_type_dmg = 9,                     // 11ad
+    dot11_phy_type_he = 10,                     // 11ax
     dot11_phy_type_IHV_start = 0x80000000,
     dot11_phy_type_IHV_end = 0xffffffff
 } DOT11_PHY_TYPE, * PDOT11_PHY_TYPE;
@@ -3175,7 +3176,7 @@ typedef struct _DOT11_WPS_DEVICE_NAME {
 typedef 
 struct _DOT11_WFD_CONFIGURATION_TIMEOUT
 {
-    UCHAR GOTimeout;	// Milliseconds
+    UCHAR GOTimeout;
     UCHAR ClientTimeout;
 } DOT11_WFD_CONFIGURATION_TIMEOUT, * PDOT11_WFD_CONFIGURATION_TIMEOUT;
 
@@ -4313,6 +4314,12 @@ typedef struct _DOT11_WFD_ADVERTISED_SERVICE_LIST
 // because it is a Direct Oid that needs to be visible to Ndis
 //
 #define OID_DOT11_SET_FT_REASSOCIATION_PARAMETERS NWF_DEFINE_OID( 0x168, NWF_OPERATIONAL_OID,NWF_MANDATORY_OID)
+
+//
+// OID_DOT11_SET_SAE_AUTH_PARAMS is a new Oid for WDI.  It is defined here
+// because it is a Direct Oid that needs to be visible to Ndis
+//
+#define OID_DOT11_SET_SAE_AUTH_PARAMS NWF_DEFINE_OID( 0x172, NWF_OPERATIONAL_OID,NWF_MANDATORY_OID)
 
 #if _MSC_VER >= 1200
 #pragma warning(pop)

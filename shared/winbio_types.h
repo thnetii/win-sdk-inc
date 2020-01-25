@@ -295,6 +295,8 @@ typedef struct _WINBIO_SECURE_CONNECTION_DATA {
     WINBIO_SCP_VERSION Version; // WINBIO_SCP_VERSION_1
     WINBIO_SCP_FLAGS Flags;
     DWORD ModelCertificateSize;
+    DWORD IntermediateCA1Size;
+    DWORD IntermediateCA2Size;
     // Required fields:
     //   Mac[WINBIO_SCP_DIGEST_SIZE_V1];
     // Fields omitted for reconnection:
@@ -305,6 +307,9 @@ typedef struct _WINBIO_SECURE_CONNECTION_DATA {
     //   FirmwareHash[WINBIO_SCP_DIGEST_SIZE_V1]
     //   ModelSignature[WINBIO_SCP_SIGNATURE_SIZE_V1]
     //   DeviceSignature[WINBIO_SCP_SIGNATURE_SIZE_V1]
+    // Field required the driver needs to append for full connection:
+    //   IntermediateCA1[IntermediateCA1Size]
+    //   IntermediateCA2[IntermediateCA2Size]
 } WINBIO_SECURE_CONNECTION_DATA, *PWINBIO_SECURE_CONNECTION_DATA;
 
 //
@@ -385,6 +390,19 @@ typedef UCHAR WINBIO_BIOMETRIC_SUBTYPE, *PWINBIO_BIOMETRIC_SUBTYPE;
 // 'WINBIO_ANSI_385_xyz' constants to represent facial image sub-type
 // information.
 //
+
+#if (NTDDI_VERSION >= NTDDI_WIN10_RS5)
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Biometric unit security level
+//
+typedef ULONG WINBIO_UNIT_SECURITY_LEVEL, *PWINBIO_UNIT_SECURITY_LEVEL;
+
+#define WINBIO_UNIT_SECURITY_LEVEL_NORMAL   ((WINBIO_UNIT_SECURITY_LEVEL)0)
+#define WINBIO_UNIT_SECURITY_LEVEL_VBS      ((WINBIO_UNIT_SECURITY_LEVEL)1)
+
+#endif // (NTDDI_VERSION >= NTDDI_WIN10_RS5)
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -1212,7 +1230,7 @@ typedef ULONG64 WINBIO_PROTECTION_TICKET, *PWINBIO_PROTECTION_TICKET;
 
 #endif // (NTDDI_VERSION >= NTDDI_WIN9)
 
-#define WINBIO_OPAQUE_ENGINE_DATA_ITEM_COUNT    ((ULONG)74)  // Number of ULONG slots in the array
+#define WINBIO_OPAQUE_ENGINE_DATA_ITEM_COUNT    ((ULONG)77)  // Number of ULONG slots in the array
 
 #if (NTDDI_VERSION >= NTDDI_WINTHRESHOLD)
 
@@ -1954,6 +1972,15 @@ typedef struct _WINBIO_EXTENDED_ENROLLMENT_STATUS {
                 POINT PupilCenter_1;
                 POINT PupilCenter_2;
                 LONG Distance;
+                ULONG GridPointCompletionPercent;
+                UINT16 GridPointIndex;
+                struct
+                {
+                    double X;
+                    double Y;
+                    double Z;
+                } Point3D;
+                BOOL StopCaptureAndShowCriticalFeedback;
             } Iris;
 
         [case(WINBIO_TYPE_VOICE)]
@@ -2000,6 +2027,15 @@ typedef struct _WINBIO_EXTENDED_ENROLLMENT_STATUS {
             POINT PupilCenter_1;
             POINT PupilCenter_2;
             LONG Distance;
+            ULONG GridPointCompletionPercent;
+            UINT16 GridPointIndex;
+            struct
+            {
+                double X;
+                double Y;
+                double Z;
+            } Point3D;
+            BOOL StopCaptureAndShowCriticalFeedback;
         } Iris;
 
         struct {
@@ -2038,6 +2074,65 @@ typedef struct _WINBIO_EXTENDED_UNIT_STATUS {
     ULONG ReasonCode;
 } WINBIO_EXTENDED_UNIT_STATUS, *PWINBIO_EXTENDED_UNIT_STATUS;
 
+#if (NTDDI_VERSION >= NTDDI_WIN10_RS5)
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// WINBIO_PROPERTY_UNIT_SECURITY_LEVEL
+//
+// Description:
+//      Returns the security level a specific biometric unit
+//      is running as.
+//
+// Access:
+//      Read-only
+//
+// Inputs:
+//      SessionHandle - must be valid
+//      UnitId - must be valid
+//      Identity - must be NULL
+//      SubFactor - must be WINBIO_SUBTYPE_NO_INFORMATION
+//
+// Outputs:
+//      PropertyBuffer - points to a WINBIO_UNIT_SECURITY_LEVEL buffer containing the level
+//      PropertyBufferSize - points to a SIZE_T variable containing sizeof(WINBIO_UNIT_SECURITY_LEVEL)
+//
+#define WINBIO_PROPERTY_UNIT_SECURITY_LEVEL         ((WINBIO_PROPERTY_ID)7)
+
+#endif // (NTDDI_VERSION >= NTDDI_WIN10_RS5)
+
+#if (NTDDI_VERSION >= NTDDI_WIN10_19H1)
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// WINBIO_PROPERTY_FP_BU_STATE
+//
+// Description:
+//      Returns information on whether a FP sensor is currently
+//      attached to the machine, in addition to any relevant FP
+//      biometric unit (BU) creation error codes.
+//
+// Access:
+//      Read-only
+//
+// Inputs:
+//      SessionHandle - must be valid
+//      UnitId - must be zero
+//      Identity - must be NULL
+//      SubFactor - must be WINBIO_SUBTYPE_NO_INFORMATION
+//
+// Outputs:
+//      PropertyBuffer - points to buffer containing a WINBIO_FP_BU_STATE structure
+//      PropertyBufferSize - points to a SIZE_T variable containing sizeof(WINBIO_FP_BU_STATE)
+//
+#define WINBIO_PROPERTY_FP_BU_STATE        ((WINBIO_PROPERTY_ID)8)
+
+typedef struct _WINBIO_FP_BU_STATE {
+    BOOL SensorAttached;
+    HRESULT CreationResult;
+} WINBIO_FP_BU_STATE, *PWINBIO_FP_BU_STATE;
+
+#endif // (NTDDI_VERSION >= NTDDI_WIN10_19H1)
 
 ///////////////////////////////////////////////////////////////////////////
 //
